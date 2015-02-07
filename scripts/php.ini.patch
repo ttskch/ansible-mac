@@ -1,0 +1,46 @@
+--- php.ini.bak	2015-02-07 19:13:50.000000000 +0900
++++ php.ini	2015-02-08 03:28:00.000000000 +0900
+@@ -369,7 +369,7 @@
+ ; Maximum execution time of each script, in seconds
+ ; http://php.net/max-execution-time
+ ; Note: This directive is hardcoded to 0 for the CLI SAPI
+-max_execution_time = 30
++max_execution_time = 0
+ 
+ ; Maximum amount of time each script may spend parsing request data. It's a good
+ ; idea to limit this time on productions servers in order to eliminate unexpectedly
+@@ -390,7 +390,7 @@
+ 
+ ; Maximum amount of memory a script may consume (128MB)
+ ; http://php.net/memory-limit
+-memory_limit = 128M
++memory_limit = 512M
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ; Error handling and logging ;
+@@ -924,7 +924,7 @@
+ [Date]
+ ; Defines the default timezone used by the date functions
+ ; http://php.net/date.timezone
+-;date.timezone =
++date.timezone = Asia/Tokyo
+ 
+ ; http://php.net/date.default-latitude
+ ;date.default_latitude = 31.7667
+@@ -1726,14 +1726,14 @@
+ ; language for internal character representation.
+ ; This affects mb_send_mail() and mbstrig.detect_order.
+ ; http://php.net/mbstring.language
+-;mbstring.language = Japanese
++mbstring.language = Japanese
+ 
+ ; Use of this INI entry is deprecated, use global internal_encoding instead.
+ ; internal/script encoding.
+ ; Some encoding cannot work as internal encoding. (e.g. SJIS, BIG5, ISO-2022-*)
+ ; If empty, default_charset or internal_encoding or iconv.internal_encoding is used.
+ ; The precedence is: default_charset < internal_encoding < iconv.internal_encoding
+-;mbstring.internal_encoding =
++mbstring.internal_encoding = UTF-8
+ 
+ ; Use of this INI entry is deprecated, use global input_encoding instead.
+ ; http input encoding.

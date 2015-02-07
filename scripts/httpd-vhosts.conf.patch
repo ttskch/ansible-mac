@@ -1,0 +1,39 @@
+--- httpd-vhosts.conf.bak	2015-02-07 16:22:11.000000000 +0900
++++ httpd-vhosts.conf	2015-02-08 03:33:49.000000000 +0900
+@@ -16,7 +16,7 @@
+ #
+ # Use name-based virtual hosting.
+ #
+-NameVirtualHost *:8080
++NameVirtualHost *:80
+ 
+ #
+ # VirtualHost example:
+@@ -24,22 +24,10 @@
+ # The first VirtualHost section is used for all requests that do not
+ # match a ServerName or ServerAlias in any <VirtualHost> block.
+ #
+-<VirtualHost *:8080>
+-    ServerAdmin webmaster@dummy-host.example.com
+-    DocumentRoot "/usr/local/opt/httpd22/docs/dummy-host.example.com"
+-    ServerName dummy-host.example.com
+-    ServerAlias www.dummy-host.example.com
+-    ErrorLog "/usr/local/var/log/apache2/dummy-host.example.com-error_log"
+-    CustomLog "/usr/local/var/log/apache2/dummy-host.example.com-access_log" common
++<VirtualHost *:80>
++    DocumentRoot "/Users/takashi/Dropbox/workspace/htdocs"
++    ServerName localhost
++    ErrorLog "/usr/local/var/log/apache2/error_log"
++    CustomLog "/usr/local/var/log/apache2/access_log" common
+ </VirtualHost>
+ 
+-<VirtualHost *:8080>
+-    ServerAdmin webmaster@dummy-host2.example.com
+-    DocumentRoot "/usr/local/opt/httpd22/docs/dummy-host2.example.com"
+-    ServerName dummy-host2.example.com
+-    ErrorLog "/usr/local/var/log/apache2/dummy-host2.example.com-error_log"
+-    CustomLog "/usr/local/var/log/apache2/dummy-host2.example.com-access_log" common
+-</VirtualHost>
+-
+-
+-

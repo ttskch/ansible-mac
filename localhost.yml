@@ -8,6 +8,7 @@
       - homebrew/php
       - homebrew/apache
       - sanemat/font
+
     homebrew_packages_packages:
       - { name: boris }
       - { name: brew-cask }
@@ -40,6 +41,7 @@
       - { name: wget }
       - { name: zsh }
       - { name: zsh-completions }
+
     homebrew_cask_packages_packages:
       - caffeine
       - clipmenu
@@ -72,7 +74,16 @@
       - xmind
       - xtrafinder
       - xquartz
+
   roles:
     - hnakamur.homebrew-packages
     - hnakamur.homebrew-cask-packages
 
+  tasks:
+    - name: configure apache and php
+      command: sh patch-php-apache.sh
+      args:
+        chdir: "{{ playbook_dir }}/scripts"
+      register: ret
+      changed_when: ret.rc != 0
+      failed_when: ret.rc not in [0, 1]
