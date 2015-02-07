@@ -1,0 +1,78 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  sudo: no
+  vars:
+    homebrew_packages_taps:
+      - caskroom/cask
+      - homebrew/php
+      - homebrew/apache
+      - sanemat/font
+    homebrew_packages_packages:
+      - { name: boris }
+      - { name: brew-cask }
+      - { name: colordiff }
+      - { name: composer }
+      - { name: coreutils }
+      - { name: git }
+      - { name: htop-osx }
+      - { name: httpd22 }
+      - { name: hub }
+      - { name: jq }
+      - { name: mysql }
+      - { name: nkf }
+      - { name: node }
+      - { name: openssl }
+      - { name: php56, install_options: "homebrew-apxs,enable-intl,enable-opcache" }
+      - { name: php56-apcu }
+      - { name: php56-mcrypt }
+      - { name: php56-xdebug }
+      - { name: php56-xhprof }
+      - { name: phpunit }
+      - { name: python }
+      - { name: reattach-to-user-namespace }
+      - { name: ricty }
+      - { name: sl }
+      - { name: sqlite }
+      - { name: tig }
+      - { name: tmux }
+      - { name: unrar }
+      - { name: wget }
+      - { name: zsh }
+      - { name: zsh-completions }
+    homebrew_cask_packages_packages:
+      - caffeine
+      - clipmenu
+      - cooviewer
+      - dropbox
+      - eclipse-java
+      - evernote
+      - filezilla
+      - firefox
+      - flash-player
+      - google-chrome
+      - google-drive
+      - google-japanese-ime
+      - heroku-toolbelt
+      - java
+      - karabiner
+      - kobito
+      - libreoffice
+      - macdown
+      - phpstorm
+      - reaper
+      - slack
+      - skitch
+      - skype
+      - spectacle
+      - sublime-text
+      - vagrant
+      - virtualbox
+      - vlc
+      - xmind
+      - xtrafinder
+      - xquartz
+  roles:
+    - hnakamur.homebrew-packages
+    - hnakamur.homebrew-cask-packages
+
