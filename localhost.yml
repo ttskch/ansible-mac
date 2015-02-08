@@ -16,6 +16,7 @@
       - { name: composer }
       - { name: coreutils }
       - { name: git }
+      - { name: graphviz }
       - { name: htop-osx }
       - { name: httpd22 }
       - { name: hub }
@@ -37,6 +38,7 @@
       - { name: sqlite }
       - { name: tig }
       - { name: tmux }
+      - { name: tree }
       - { name: unrar }
       - { name: wget }
       - { name: zsh }
