@@ -1,0 +1,7 @@
+<?php
+// paset this into bootstrap of your application.
+xhprof_enable();
+register_shutdown_function(function () {
+    $runs = new XHProfRuns_Default(sys_get_temp_dir());
+    $runs->save_run(xhprof_disable(), 'APPLICATION_NAME');
+});

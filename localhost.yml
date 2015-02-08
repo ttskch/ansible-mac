@@ -89,3 +89,8 @@
       register: ret
       changed_when: ret.rc != 0
       failed_when: ret.rc not in [0, 1]
+    - name: symlink xhprof into DocumentRoot
+      command: sh symlink-xhprof.sh
+      args:
+        chdir: "{{ playbook_dir }}/scripts"
+      changed_when: false
