@@ -45,6 +45,7 @@
       - { name: zsh-completions }
 
     homebrew_cask_packages_packages:
+      - avast
       - caffeine
       - clipmenu
       - cooviewer
