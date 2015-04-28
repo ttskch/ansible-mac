@@ -10,6 +10,7 @@
       - sanemat/font
 
     homebrew_packages_packages:
+      - { name: ansible }
       - { name: boris }
       - { name: brew-cask }
       - { name: colordiff }
@@ -25,7 +26,8 @@
       - { name: nkf }
       - { name: node }
       - { name: openssl }
-      - { name: php56, install_options: "homebrew-apxs,enable-intl,enable-opcache" }
+      - { name: php56, install_options: "homebrew-apxs,enable-intl" }
+      - { name: php56-opcache }
       - { name: php56-apcu }
       - { name: php56-mcrypt }
       - { name: php56-xdebug }
@@ -84,15 +86,23 @@
     - hnakamur.homebrew-cask-packages
 
   tasks:
-    - name: configure apache and php
-      command: sh patch-php-apache.sh
-      args:
-        chdir: "{{ playbook_dir }}/scripts"
-      register: ret
-      changed_when: ret.rc != 0
-      failed_when: ret.rc not in [0, 1]
+    - name: configure apache
+      patch: src=patches/httpd.conf.patch dest=/usr/local/etc/apache2/2.2/httpd.conf basedir=.
+
+    - name: put a sample conf file for vhosts
+      template: src=templates/httpd-vhosts.conf.sample dest=/usr/local/etc/apache2/2.2/extra/httpd-vhosts.conf.sample
+
+    - name: configure php
+      patch: "src={{ item.src }} dest={{ item.dest }} basedir=."
+      with_items:
+        - { src: patches/php.ini.patch, dest: /usr/local/etc/php/5.6/php.ini }
+        - { src: patches/ext-xdebug.ini.patch, dest: /usr/local/etc/php/5.6/conf.d/ext-xdebug.ini }
+
     - name: symlink xhprof into DocumentRoot
-      command: sh symlink-xhprof.sh
-      args:
-        chdir: "{{ playbook_dir }}/scripts"
-      changed_when: false
+      file: "src={{ item.src }} dest={{ item.dest }} state=link"
+      with_items:
+        - { src: /usr/local/opt/php56-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
+        - { src: /usr/local/opt/php56-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
+
+    - name: put a snippet file into xhprof dir
+      copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
