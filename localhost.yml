@@ -35,6 +35,7 @@
       - { name: phpunit }
       - { name: python }
       - { name: reattach-to-user-namespace }
+      - { name: rename }
       - { name: ricty }
       - { name: sl }
       - { name: sqlite }
