@@ -39,7 +39,6 @@
       - { name: python }
       - { name: reattach-to-user-namespace }
       - { name: rename }
-      - { name: ricty }
       - { name: sl }
       - { name: sqlite }
       - { name: tig }
@@ -83,7 +82,6 @@
       - vlc
       - xmind
       - xtrafinder
-      - xquartz
 
     npm_packages:
       - { name: bower }
@@ -92,6 +90,10 @@
       - { name: grunt-cli }
       - { name: karma }
       - { name: less }
+
+  handlers:
+    - name: run fc-cache
+      shell: fc-cache -vf
 
   tasks:
     # brew tap
@@ -133,6 +135,17 @@
       shell: "sh -c $(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
       args:
         creates: ~/.oh-my-zsh
+
+    # install Ricty font
+    - name: install xquartz
+      homebrew_cask: name=xquartz
+    - name: install ricty
+      homebrew: name=ricty
+    - name: copy generated font file
+      shell: "cp -f $(brew --cellar ricty)/*/share/fonts/Ricty*.ttf ~/Library/Fonts/"
+      args:
+        creates: ~/Library/Fonts/Ricty-Bold.ttf
+      notify: run fc-cache
 
     # configure apache
     - name: configure httpd.conf (replace)

@@ -1,13 +1,15 @@
 # Mac OS X provisioner
 
-## Prepare
+## Usage
+
+### Prepare
 
 ```bash
 $ brew update
 $ brew install python ansible
 ```
 
-## Execute
+### Execute
 
 ```bash
 # e.g. execute all
