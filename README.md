@@ -1,18 +1,21 @@
-## Usage
+# Mac OS X provisioner
+
+## Prepare
 
 ```bash
-# only first time.
 $ brew update
 $ brew install python ansible
 ```
 
+## Execute
+
 ```bash
-# e.g. install all
-$ ansible-playbook localhost.yml -ihosts
+# e.g. execute all
+$ ansible-playbook localhost.yml -i hosts
 
-# e.g. install only brew casks
-$ ansible-playbook localhost.yml -ihosts --tags=brewcask
+# e.g. only install brew packages
+$ ansible-playbook localhost.yml -i hosts --tags=brew
 
-# e.g. install all but skip initial configurings
-$ ansible-playbook localhost.yml -ihosts --skip-tags=init
+# e.g. only install npm packages
+$ ansible-playbook localhost.yml -i hosts --tags=npm
 ```

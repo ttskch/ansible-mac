@@ -3,6 +3,8 @@
   gather_facts: no
   sudo: no
   vars:
+    apache_user: t-kanemoto
+
     homebrew_taps:
       - caskroom/cask
       - homebrew/php
@@ -83,52 +85,98 @@
       - xtrafinder
       - xquartz
 
+    npm_packages:
+      - { name: bower }
+      - { name: coffee-script }
+      - { name: grunt }
+      - { name: grunt-cli }
+      - { name: karma }
+      - { name: less }
+
   tasks:
+    # brew tap
     - name: install taps of homebrew
       homebrew_tap: tap="{{ item }}" state=present
       with_items: homebrew_taps
-      tags: [ 'brew', 'brewcask' ]
+      tags:
+        - brew
 
+    # brew update
     - name: update homebrew
       homebrew: update_homebrew=yes
-      tags: [ 'brew' ]
+      tags:
+        - brew
 
+    # brew instal
     - name: install homebrew packages
       homebrew: name="{{ item.name }}" state="{{ item.state|default('latest') }}" install_options="{{ item.install_options|default() }}"
       with_items: homebrew_packages
-      tags: [ 'brew' ]
+      tags:
+        - brew
 
+    # brew cask install
     - name: update brew-cask
       homebrew: name=brew-cask state=latest
-      tags: [ 'brewcask' ]
-
     - name: install homebrew cask packages
       homebrew_cask: name="{{ item }}" state=present
       with_items: homebrew_cask_packages
-      tags: [ 'brewcask' ]
 
-    - name: configure apache
-      patch: src=patches/httpd.conf.patch dest=/usr/local/etc/apache2/2.2/httpd.conf basedir=.
-      tags: [ 'init' ]
+    # npm -g install
+    - name: install npm packages
+      npm: name="{{ item.name }}" state="{{ item.state|default('latest') }}" version="{{ item.version|default() }}" global=yes
+      with_items: npm_packages
+      tags:
+        - npm
 
-    - name: put a sample conf file for vhosts
-      template: src=templates/httpd-vhosts.conf.sample dest=/usr/local/etc/apache2/2.2/extra/httpd-vhosts.conf.sample
-      tags: [ 'init' ]
+    # install oh-my-zsh
+    - name: install oh-my-zsh
+      shell: "sh -c $(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      args:
+        creates: ~/.oh-my-zsh
 
-    - name: configure php
-      patch: src="{{ item.src }}" dest="{{ item.dest }}" basedir=.
+    # configure apache
+    - name: configure httpd.conf (replace)
+      replace: dest=/usr/local/etc/apache2/2.2/httpd.conf regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items:
-        - { src: patches/php.ini.patch, dest: /usr/local/etc/php/5.6/php.ini }
-        - { src: patches/ext-xdebug.ini.patch, dest: /usr/local/etc/php/5.6/conf.d/ext-xdebug.ini }
-      tags: [ 'init' ]
+        - { regexp: '^( *Listen) .*$',                          replace: '\1 80' }
+        - { regexp: '^( *User) .*$',                            replace: '\1 {{ apache_user }}' }
+        - { regexp: '^( *DirectoryIndex) .*$',                  replace: '\1 index.php index.html' }
+        - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',  replace: '\1\2' }   # just comment in
+    - name: configure httd.conf (insert)
+      lineinfile: dest=/usr/local/etc/apache2/2.2/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
+      with_items:
+        - { insertafter: "LoadModule rewrite_module",         line: "LoadModule php5_module /usr/local/opt/php56/libexec/apache2/libphp5.so" }
+        - { insertafter: '^#ServerName ',                     line: "ServerName localhost:80" }
+        - { insertafter: '^ *AddType ',                       line: "    AddType application/x-httpd-php .php" }
+        - { insertafter: '^ *# *Include .+httpd-vhosts.conf', line: "Include /usr/local/etc/apache2/2.2/extra/httpd-vhosts.my.conf" }
+    - name: create httpd-vhosts.conf
+      copy: src=templates/httpd-vhosts.my.conf dest=/usr/local/etc/apache2/2.2/extra/httpd-vhosts.my.conf
+      args:
+        force: no
 
+    # configure php
+    - name: configure php.ini
+      replace: dest=/usr/local/etc/php/5.6/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+      with_items:
+        - { regexp: '^(max_execution_time) *=.*$',       replace: '\1 = 0' }
+        - { regexp: '^(memory_limit) *=.*$',             replace: '\1 = 512M' }
+        - { regexp: '^(;date.timezone) *=.*$',           replace: '\1 = Asia/Tokyo' }
+        - { regexp: '^(;mbstring.language) *=.*$',       replace: '\1 = Japanese' }
+        - { regexp: '^(mysql.default_socket) *=.*$',     replace: '\1 = /private/tmp/mysql.sock' }
+        - { regexp: '^(pdo_mysql.default_socket) *=.*$', replace: '\1 = /private/tmp/mysql.sock' }
+        - { regexp: '^(zend_extension *= *opcache.so)',  replace: ';\1' }   # just comment out
+
+    # configure xdebug
+    - name: configure ext-xdebug.ini
+      template: src=templates/ext-xdebug.my.ini dest=/usr/local/etc/php/5.6/conf.d/ext-xdebug.my.ini
+
+    # configure xhprof
+    - name: make xhprod dir in DocumentRoot
+      file: dest=/usr/local/var/www/htdocs/xhprof state=directory
     - name: symlink xhprof into DocumentRoot
       file: src="{{ item.src }}" dest="{{ item.dest }}" state=link
       with_items:
         - { src: /usr/local/opt/php56-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
         - { src: /usr/local/opt/php56-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
-      tags: [ 'init' ]
-
     - name: put a snippet file into xhprof dir
       copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
-      tags: [ 'init' ]
