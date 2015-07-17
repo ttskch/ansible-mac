@@ -4,6 +4,12 @@
   sudo: no
   vars:
     apache_user: t-kanemoto
+    dotfiles:
+      src:
+        repository: git@github.com:qckanemoto/dotfiles.git
+        directory: ~
+      dest: ~/dotfiles
+      symlink_command: "cd ~/dotfiles ; sh symlink.sh"
 
     homebrew_taps:
       - caskroom/cask
@@ -193,3 +199,16 @@
         - { src: /usr/local/opt/php56-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
     - name: put a snippet file into xhprof dir
       copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
+
+    # install dotfiles
+    - name: git clone dotfiles
+      git: repo="{{ dotfiles.src.repository }}" dest="{{ dotfiles.dest }}"
+      register: ret1
+      when: dotfiles.src.repository
+    - name: copy dotfiles
+      copy: src="{{ dotfiles.src.directory }}" dest="{{ dotfiles.dest }}"
+      register: ret2
+      when: dotfiles.src.directory
+    - name: symlink dotfiles
+      shell: "{{ dotfiles.symlink_command }}"
+      when: ret1|changed or ret2|changed
