@@ -198,7 +198,7 @@
         - { src: /usr/local/opt/php56-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
         - { src: /usr/local/opt/php56-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
     - name: put a snippet file into xhprof dir
-      copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
+      template: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
 
     # install dotfiles
     - name: git clone dotfiles
