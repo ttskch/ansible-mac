@@ -28,14 +28,14 @@
       - { name: git }
       - { name: graphviz }
       - { name: htop-osx }
-      - { name: httpd22 }
+      - { name: httpd22 }   # must be prior to php56
       - { name: hub }
       - { name: jq }
       - { name: mysql }
       - { name: nkf }
       - { name: node }
       - { name: openssl }
-      - { name: php56 }
+      - { name: php56, install_options: with-homebrew-apxs }
       - { name: php56-intl }
       - { name: php56-opcache }
       - { name: php56-apcu }
@@ -159,10 +159,11 @@
     - name: configure httpd.conf (replace)
       replace: dest=/usr/local/etc/apache2/2.2/httpd.conf regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items:
-        - { regexp: '^( *Listen) .*$',                          replace: '\1 80' }
-        - { regexp: '^( *User) .*$',                            replace: '\1 {{ apache_user }}' }
-        - { regexp: '^( *DirectoryIndex) .*$',                  replace: '\1 index.php index.html' }
-        - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',  replace: '\1\2' }   # just comment in
+        - { regexp: '^( *Listen) .*$',                                  replace: '\1 80' }
+        - { regexp: '^( *User) .*$',                                    replace: '\1 {{ apache_user }}' }
+        - { regexp: '^( *DirectoryIndex) .*$',                          replace: '\1 index.php index.html' }
+        - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',          replace: '\1\2' }   # just comment in
+        - { regexp: '^LoadModule +php5_module +/usr/local/Cellar/.+\n', replace: '' }   # remove the line inserted via `brew install php56 --homebrew-apxs`
     - name: configure httd.conf (insert)
       lineinfile: dest=/usr/local/etc/apache2/2.2/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
       with_items:
