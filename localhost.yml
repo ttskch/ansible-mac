@@ -2,8 +2,9 @@
   connection: local
   gather_facts: no
   sudo: no
+  vars_files:
+    - vars.yml
   vars:
-    apache_user: t-kanemoto
     dotfiles:
       src:
         repository: git@github.com:qckanemoto/dotfiles.git
