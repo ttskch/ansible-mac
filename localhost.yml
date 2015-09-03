@@ -182,13 +182,14 @@
     - name: configure php.ini
       replace: dest=/usr/local/etc/php/5.6/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items:
-        - { regexp: '^(max_execution_time) *=.*$',       replace: '\1 = 0' }
-        - { regexp: '^(memory_limit) *=.*$',             replace: '\1 = 512M' }
-        - { regexp: '^(;date.timezone) *=.*$',           replace: '\1 = Asia/Tokyo' }
-        - { regexp: '^(;mbstring.language) *=.*$',       replace: '\1 = Japanese' }
-        - { regexp: '^(mysql.default_socket) *=.*$',     replace: '\1 = /private/tmp/mysql.sock' }
-        - { regexp: '^(pdo_mysql.default_socket) *=.*$', replace: '\1 = /private/tmp/mysql.sock' }
-        - { regexp: '^(zend_extension *= *opcache.so)',  replace: ';\1' }   # just comment out
+        - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
+        - { regexp: '^;?(memory_limit) *=.*$',                  replace: '\1 = 512M' }
+        - { regexp: '^;?(date.timezone) *=.*$',                 replace: '\1 = Asia/Tokyo' }
+        - { regexp: '^;?(mbstring.language) *=.*$',             replace: '\1 = Japanese' }
+        - { regexp: '^;?(mysql.default_socket) *=.*$',          replace: '\1 = /private/tmp/mysql.sock' }
+        - { regexp: '^;?(pdo_mysql.default_socket) *=.*$',      replace: '\1 = /private/tmp/mysql.sock' }
+        - { regexp: '^;?(zend_extension *= *opcache.so)',       replace: ';\1' }   # just comment out
+        - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php56
 
     # configure xdebug
     - name: configure ext-xdebug.ini
