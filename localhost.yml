@@ -60,6 +60,7 @@
       - { name: zsh-completions }
 
     homebrew_cask_packages:
+      - astah-community
       - avast
       - caffeine
       - clipmenu
