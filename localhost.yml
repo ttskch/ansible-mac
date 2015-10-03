@@ -36,6 +36,7 @@
       - { name: nkf }
       - { name: node }
       - { name: openssl }
+      - { name: packer }
       - { name: php56, install_options: with-homebrew-apxs }
       - { name: php56-intl }
       - { name: php56-opcache }
