@@ -17,6 +17,7 @@
       - homebrew/php
       - homebrew/apache
       - sanemat/font
+      - brona/iproute2mac
 
     homebrew_packages:
       - { name: ansible }
@@ -31,6 +32,7 @@
       - { name: htop-osx }
       - { name: httpd22 }   # must be prior to php56
       - { name: hub }
+      - { name: iproute2mac }
       - { name: jq }
       - { name: mysql }
       - { name: nkf }
