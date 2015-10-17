@@ -102,6 +102,9 @@
       - { name: coffee-script }
       - { name: grunt }
       - { name: grunt-cli }
+      - { name: gulp }
+      - { name: gulp-less }
+      - { name: gulp-sass }
       - { name: karma }
       - { name: less }
 
