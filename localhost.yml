@@ -64,6 +64,7 @@
 
     homebrew_cask_packages:
       - astah-community
+      - atom
       - avast
       - caffeine
       - clipmenu
