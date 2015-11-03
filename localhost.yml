@@ -26,6 +26,7 @@
       - { name: colordiff }
       - { name: composer }
       - { name: coreutils }
+      - { name: exiftool }
       - { name: ffmpeg }
       - { name: git }
       - { name: graphviz }
