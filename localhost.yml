@@ -23,7 +23,6 @@
       - { name: ansible }
       - { name: boris }
       - { name: brew-cask }
-      - { name: colordiff }
       - { name: composer }
       - { name: coreutils }
       - { name: exiftool }
@@ -58,6 +57,7 @@
       - { name: tmux }
       - { name: tree }
       - { name: unrar }
+      - { name: vimdiff }
       - { name: wget }
       - { name: youtube-dl }
       - { name: zsh }
