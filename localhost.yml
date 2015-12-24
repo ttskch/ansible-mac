@@ -39,7 +39,7 @@
       - { name: node }
       - { name: openssl }
       - { name: packer }
-      - { name: php56, install_options: with-homebrew-apxs }
+      - { name: php56, install_options: "with-homebrew-apxs,enable-shmop" }
       - { name: php56-intl }
       - { name: php56-opcache }
       - { name: php56-apcu }
@@ -57,7 +57,6 @@
       - { name: tmux }
       - { name: tree }
       - { name: unrar }
-      - { name: vimdiff }
       - { name: wget }
       - { name: youtube-dl }
       - { name: zsh }
