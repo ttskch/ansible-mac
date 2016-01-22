@@ -84,7 +84,6 @@
       - heroku-toolbelt
       - java
       - karabiner
-      - kobito
       - libreoffice
       - macdown
       - phpstorm
