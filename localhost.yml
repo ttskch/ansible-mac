@@ -22,7 +22,6 @@
     homebrew_packages:
       - { name: ansible }
       - { name: boris }
-      - { name: brew-cask }
       - { name: composer }
       - { name: coreutils }
       - { name: exiftool }
@@ -137,8 +136,6 @@
         - brew
 
     # brew cask install
-    - name: update brew-cask
-      homebrew: name=brew-cask state=latest
     - name: install homebrew cask packages
       homebrew_cask: name="{{ item }}" state=present
       with_items: homebrew_cask_packages
