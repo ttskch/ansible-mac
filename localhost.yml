@@ -197,6 +197,7 @@
         - { regexp: '^;?(pdo_mysql.default_socket) *=.*$',      replace: '\1 = /private/tmp/mysql.sock' }
         - { regexp: '^;?(zend_extension *= *opcache.so)',       replace: ';\1' }   # just comment out
         - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php56
+        - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
 
     # configure xdebug
     - name: configure ext-xdebug.ini
