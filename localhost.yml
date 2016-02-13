@@ -173,6 +173,8 @@
         - { regexp: '^( *DirectoryIndex) .*$',                          replace: '\1 index.php index.html' }
         - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',          replace: '\1\2' }   # just comment in
         - { regexp: '^LoadModule +php5_module +/usr/local/Cellar/.+\n', replace: '' }   # remove the line inserted via `brew install php56 --homebrew-apxs`
+      tags:
+        - apache
     - name: configure httd.conf (insert)
       lineinfile: dest=/usr/local/etc/apache2/2.2/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
       with_items:
@@ -180,10 +182,14 @@
         - { insertafter: '^#ServerName ',                     line: "ServerName localhost:80" }
         - { insertafter: '^ *AddType ',                       line: "    AddType application/x-httpd-php .php" }
         - { insertafter: '^ *# *Include .+httpd-vhosts.conf', line: "Include /usr/local/etc/apache2/2.2/extra/httpd-vhosts.my.conf" }
+      tags:
+        - apache
     - name: create httpd-vhosts.conf
       copy: src=templates/httpd-vhosts.my.conf dest=/usr/local/etc/apache2/2.2/extra/httpd-vhosts.my.conf
       args:
         force: no
+      tags:
+        - apache
 
     # configure php
     - name: configure php.ini
@@ -199,10 +205,14 @@
         - { regexp: '^;?(zend_extension *= *opcache.so)',       replace: ';\1' }   # just comment out
         - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php56
         - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
+      tags:
+        - php
 
     # configure xdebug
     - name: configure ext-xdebug.ini
       copy: src=templates/ext-xdebug.my.ini dest=/usr/local/etc/php/5.6/conf.d/ext-xdebug.my.ini
+      tags:
+        - php
 
     # configure xhprof
     - name: make xhprod dir in DocumentRoot
@@ -213,8 +223,12 @@
       with_items:
         - { src: /usr/local/opt/php56-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
         - { src: /usr/local/opt/php56-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
+      tags:
+        - php
     - name: put a snippet file into xhprof dir
       copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
+      tags:
+        - php
 
     # install dotfiles
     - name: git clone dotfiles
