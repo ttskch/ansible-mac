@@ -206,6 +206,7 @@
 
     # configure xhprof
     - name: make xhprod dir in DocumentRoot
+    - name: make xhprof dir in DocumentRoot
       file: dest=/usr/local/var/www/htdocs/xhprof state=directory
     - name: symlink xhprof into DocumentRoot
       file: src="{{ item.src }}" dest="{{ item.dest }}" state=link
