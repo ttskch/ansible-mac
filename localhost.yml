@@ -172,7 +172,7 @@
         - { regexp: '^( *User) .*$',                                    replace: '\1 {{ apache_user }}' }
         - { regexp: '^( *DirectoryIndex) .*$',                          replace: '\1 index.php index.html' }
         - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',          replace: '\1\2' }   # just comment in
-        - { regexp: '^LoadModule +php7_module +/usr/local/Cellar/.+\n', replace: '' }   # remove the line inserted via `brew install php70 --homebrew-apxs`
+        - { regexp: '^LoadModule +php\d_module +/usr/local/Cellar/.+\n', replace: '' }   # remove the line already exists
       tags:
         - apache
     - name: configure httd.conf (insert)
