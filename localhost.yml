@@ -24,6 +24,7 @@
       - { name: boris }
       - { name: composer }
       - { name: coreutils }
+      - { name: diff-so-fancy }
       - { name: exiftool }
       - { name: ffmpeg }
       - { name: git }
