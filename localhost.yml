@@ -85,7 +85,6 @@
       - java
       - karabiner
       - libreoffice
-      - macdown
       - phpstorm
       - pingendo
       - plex-media-server
@@ -99,7 +98,6 @@
       - virtualbox
       - vlc
       - xmind
-      - xtrafinder
 
     npm_packages:
       - { name: bower }
