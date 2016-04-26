@@ -62,6 +62,7 @@
       - { name: zsh-completions }
 
     homebrew_cask_packages:
+      - 1password
       - astah-community
       - atom
       - avast
