@@ -63,6 +63,7 @@
 
     homebrew_cask_packages:
       - 1password
+      - alfred
       - astah-community
       - atom
       - avast
