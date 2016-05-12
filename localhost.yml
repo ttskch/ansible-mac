@@ -33,6 +33,7 @@
       - { name: hub }
       - { name: iproute2mac }
       - { name: jq }
+      - { name: lastpass-cli }
       - { name: mysql }
       - { name: nkf }
       - { name: node }
@@ -62,7 +63,6 @@
       - { name: zsh-completions }
 
     homebrew_cask_packages:
-      - 1password
       - alfred
       - appcleaner
       - astah-community
