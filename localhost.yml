@@ -28,6 +28,7 @@
       - { name: ffmpeg }
       - { name: git }
       - { name: graphviz }
+      - { name: heroku }
       - { name: htop-osx }
       - { name: httpd22 }   # must be prior to php70
       - { name: hub }
@@ -84,7 +85,6 @@
       - google-chrome
       - google-drive
       - gyazo
-      - heroku-toolbelt
       - java
       - karabiner
       - libreoffice
