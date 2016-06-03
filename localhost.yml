@@ -6,7 +6,7 @@
   vars:
     dotfiles:
       src:
-        repository: git@github.com:qckanemoto/dotfiles.git
+        repository: git@github.com:ttskch/dotfiles.git
         directory: ~
       dest: ~/dotfiles
       symlink_command: "cd ~/dotfiles ; sh symlink.sh"
