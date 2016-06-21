@@ -32,6 +32,7 @@
       - { name: htop-osx }
       - { name: httpd22 }   # must be prior to php70
       - { name: hub }
+      - { name: imagemagick }
       - { name: iproute2mac }
       - { name: jq }
       - { name: lastpass-cli }
@@ -41,6 +42,7 @@
       - { name: openssl }
       - { name: packer }
       - { name: php70, install_options: "with-homebrew-apxs,enable-shmop" }
+      - { name: php70-imagick }
       - { name: php70-intl }
       - { name: php70-opcache }
       - { name: php70-apcu }
