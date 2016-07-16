@@ -23,6 +23,7 @@
       - { name: boris }
       - { name: composer }
       - { name: coreutils }
+      - { name: docker-clean }
       - { name: diff-so-fancy }
       - { name: exiftool }
       - { name: ffmpeg }
