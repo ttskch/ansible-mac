@@ -108,6 +108,7 @@
       - { name: gulp }
       - { name: karma }
       - { name: less }
+      - { name: typescript }
 
   handlers:
     - name: run fc-cache
