@@ -42,6 +42,7 @@
       - { name: node }
       - { name: openssl }
       - { name: packer }
+      - { name: peco }
       - { name: php70, install_options: "with-homebrew-apxs,enable-shmop" }
       - { name: php70-imagick }
       - { name: php70-intl }
