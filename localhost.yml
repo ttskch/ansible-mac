@@ -16,7 +16,6 @@
       - homebrew/php
       - homebrew/apache
       - sanemat/font
-      - brona/iproute2mac
 
     homebrew_packages:
       - { name: ansible }
@@ -30,31 +29,42 @@
       - { name: git }
       - { name: graphviz }
       - { name: heroku }
+      - { name: httpd24 }   # must be prior to php71
       - { name: htop-osx }
-      - { name: httpd22 }   # must be prior to php70
       - { name: hub }
       - { name: imagemagick }
       - { name: iproute2mac }
       - { name: jq }
       - { name: lastpass-cli }
+      - { name: mas }
       - { name: mysql }
       - { name: nkf }
       - { name: node }
       - { name: openssl }
       - { name: packer }
       - { name: peco }
-      - { name: php70, install_options: "with-homebrew-apxs,enable-shmop" }
-      - { name: php70-imagick }
-      - { name: php70-intl }
-      - { name: php70-opcache }
-      - { name: php70-apcu }
-      - { name: php70-mcrypt }
-      - { name: php70-xdebug }
-    #   - { name: php70-xhprof }
+      - { name: php56, install_options: "with-httpd24,enable-shmop" }
+      - { name: php56-imagick }
+      - { name: php56-intl }
+      - { name: php56-opcache }
+      - { name: php56-apcu }
+      - { name: php56-mcrypt }
+      - { name: php56-xdebug }
+      - { name: php56-xhprof }
+      - { name: php56, state: unlinked }   # unlink php56
+      - { name: php71, install_options: "with-httpd24,enable-shmop" }
+      - { name: php71-imagick }
+      - { name: php71-intl }
+      - { name: php71-opcache }
+      - { name: php71-apcu }
+      - { name: php71-mcrypt }
+      - { name: php71-xdebug }
+      # - { name: php71-xhprof }
       - { name: phpunit }
       - { name: python }
       - { name: reattach-to-user-namespace }
       - { name: rename }
+      - { name: ruby }
       - { name: sl }
       - { name: sqlite }
       - { name: ssh-copy-id }
@@ -66,6 +76,19 @@
       - { name: youtube-dl }
       - { name: zsh }
       - { name: zsh-completions }
+
+    php_configs:
+      - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
+      - { regexp: '^;?(max_input_time) *=.*$',                replace: '\1 = -1' }
+      - { regexp: '^;?(memory_limit) *=.*$',                  replace: '\1 = 512M' }
+      - { regexp: '^;?(date.timezone) *=.*$',                 replace: '\1 = Asia/Tokyo' }
+      - { regexp: '^;?(mbstring.language) *=.*$',             replace: '\1 = Japanese' }
+      - { regexp: '^;?(mysql.default_socket) *=.*$',          replace: '\1 = /private/tmp/mysql.sock' }
+      - { regexp: '^;?(pdo_mysql.default_socket) *=.*$',      replace: '\1 = /private/tmp/mysql.sock' }
+      - { regexp: '^;?(zend_extension *= *opcache.so)',       replace: ';\1' }   # just comment out
+      - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php70
+      - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
+
 
     homebrew_cask_packages:
       - alfred
@@ -94,7 +117,6 @@
       - pingendo
       - plex-media-server
       - reaper
-      - ruby
       - sequel-pro
       - slack
       - skitch
@@ -105,6 +127,21 @@
       - virtualbox
       - vlc
       - xmind
+
+    mas_packages:
+      - 497799835   # Xcode
+      - 409183694   # Keynote
+      - 409789998   # Twitter
+      - 414855915   # WinArchiver Lite
+      - 408981434   # iMovie
+      - 451444120   # Memory Clean
+      - 907364780   # Tomato One
+      - 563362017   # CloudClip Manager
+      - 539883307   # LINE
+      - 408980954   # GarageBand
+      - 408981434   # iMovie 9.0.9
+      - 411213048   # LadioCast
+      - 409203825   # Numbers
 
     npm_packages:
       - { name: angular-cli }
@@ -147,8 +184,26 @@
     - name: install homebrew cask packages
       homebrew_cask: name="{{ item }}" state=present
       with_items: "{{ homebrew_cask_packages }}"
+      ignore_errors: true
       tags:
         - cask
+
+    # mas install
+    - name: install mas (App Store) packages
+      shell: mas install "{{ item }}"
+      with_items: "{{ mas_packages }}"
+      register: result
+      changed_when: '"already installed" not in result.stdout'
+      tags:
+        - mas
+
+    # mas upgrade
+    - name: upgrade all mas (App Store) packages
+      shell: mas upgrade
+      register: result
+      changed_when: '"Everything is up-to-date" not in result.stdout'
+      tags:
+        - mas
 
     # npm -g install
     - name: install npm packages
@@ -176,51 +231,47 @@
 
     # configure apache
     - name: configure httpd.conf (replace)
-      replace: dest=/usr/local/etc/apache2/2.2/httpd.conf regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+      replace: dest=/usr/local/etc/apache2/2.4/httpd.conf regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items:
         - { regexp: '^( *Listen) .*$',                                  replace: '\1 80' }
         - { regexp: '^( *User) .*$',                                    replace: '\1 {{ apache_user }}' }
         - { regexp: '^( *DirectoryIndex) .*$',                          replace: '\1 index.php index.html' }
         - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',          replace: '\1\2' }   # just comment in
+        - { regexp: '^( *)# *(LoadModule rewrite_module +.*)$',         replace: '\1\2' }   # just comment in
         - { regexp: '^LoadModule +php\d_module +/usr/local/Cellar/.+\n', replace: '' }   # remove the line already exists
       tags:
         - apache
     - name: configure httd.conf (insert)
-      lineinfile: dest=/usr/local/etc/apache2/2.2/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
+      lineinfile: dest=/usr/local/etc/apache2/2.4/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
       with_items:
-        - { insertafter: "LoadModule rewrite_module",         line: "LoadModule php7_module /usr/local/opt/php70/libexec/apache2/libphp7.so" }
+        - { insertafter: "LoadModule rewrite_module",         line: "LoadModule php7_module /usr/local/opt/php71/libexec/apache2/libphp7.so" }
         - { insertafter: '^#ServerName ',                     line: "ServerName localhost:80" }
         - { insertafter: '^ *AddType ',                       line: "    AddType application/x-httpd-php .php" }
-        - { insertafter: '^ *# *Include .+httpd-vhosts.conf', line: "Include /usr/local/etc/apache2/2.2/extra/httpd-vhosts.my.conf" }
+        - { insertafter: '^ *# *Include .+httpd-vhosts.conf', line: "Include /usr/local/etc/apache2/2.4/extra/httpd-vhosts.my.conf" }
       tags:
         - apache
     - name: create httpd-vhosts.conf
-      copy: src=templates/httpd-vhosts.my.conf dest=/usr/local/etc/apache2/2.2/extra/httpd-vhosts.my.conf
+      copy: src=templates/httpd-vhosts.my.conf dest=/usr/local/etc/apache2/2.4/extra/httpd-vhosts.my.conf
       args:
         force: no
       tags:
         - apache
 
-    # configure php
-    - name: configure php.ini
-      replace: dest=/usr/local/etc/php/7.0/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
-      with_items:
-        - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
-        - { regexp: '^;?(max_input_time) *=.*$',                replace: '\1 = -1' }
-        - { regexp: '^;?(memory_limit) *=.*$',                  replace: '\1 = 512M' }
-        - { regexp: '^;?(date.timezone) *=.*$',                 replace: '\1 = Asia/Tokyo' }
-        - { regexp: '^;?(mbstring.language) *=.*$',             replace: '\1 = Japanese' }
-        - { regexp: '^;?(mysql.default_socket) *=.*$',          replace: '\1 = /private/tmp/mysql.sock' }
-        - { regexp: '^;?(pdo_mysql.default_socket) *=.*$',      replace: '\1 = /private/tmp/mysql.sock' }
-        - { regexp: '^;?(zend_extension *= *opcache.so)',       replace: ';\1' }   # just comment out
-        - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php70
-        - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
+    # configure php56, php71
+    - name: configure php.ini of php56
+      replace: dest=/usr/local/etc/php/5.6/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+      with_items: "{{ php_configs }}"
+      tags:
+        - php
+    - name: configure php.ini of php71
+      replace: dest=/usr/local/etc/php/7.1/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+      with_items: "{{ php_configs }}"
       tags:
         - php
 
     # configure xdebug
     - name: configure ext-xdebug.ini
-      copy: src=templates/ext-xdebug.my.ini dest=/usr/local/etc/php/7.0/conf.d/ext-xdebug.my.ini
+      copy: src=templates/ext-xdebug.my.ini dest=/usr/local/etc/php/7.1/conf.d/ext-xdebug.my.ini
       tags:
         - php
 
