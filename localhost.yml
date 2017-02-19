@@ -107,8 +107,10 @@
       - flash-player
       - google-chrome
       - google-drive
+      - google-photos-backup
       - grammarly
       - gyazo
+      - handbrake
       - java
       - karabiner
       - kindle
@@ -117,16 +119,19 @@
       - pingendo
       - plex-media-server
       - reaper
+      - ripit
       - sequel-pro
       - slack
       - skitch
       - skype
       - soundflower
       - spectacle
+      - transmission
       - vagrant
       - virtualbox
       - vlc
       - xmind
+      - xquartz
 
     mas_packages:
       - 497799835   # Xcode
