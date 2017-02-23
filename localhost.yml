@@ -147,7 +147,6 @@
       - 408980954   # GarageBand
       - 408981434   # iMovie 9.0.9
       - 411213048   # LadioCast
-      - 409203825   # Numbers
 
     npm_packages:
       - { name: angular-cli }
