@@ -315,8 +315,14 @@
     #   copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
     #   tags:
     #     - php
+
+    # configure mysql
+    - name: chown mysql directory
+      file: path=/usr/local/var/mysql owner=_mysql group=_mysql recurse=yes
+      become: yes
+      become_method: sudo
       tags:
-        - php
+        mysql
 
     # install dotfiles
     - name: git clone dotfiles
