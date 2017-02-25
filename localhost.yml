@@ -43,7 +43,7 @@
       - { name: packer }
       - { name: peco }
       - { name: php56, install_options: "with-httpd24,enable-shmop" }
-      - { name: php56-imagick }
+      - { name: php56-imagick, install_options: build-from-source }
       - { name: php56-intl }
       - { name: php56-opcache }
       - { name: php56-apcu }
@@ -52,7 +52,7 @@
       - { name: php56-xhprof }
       - { name: php56, state: unlinked }   # unlink php56
       - { name: php71, install_options: "with-httpd24,enable-shmop" }
-      - { name: php71-imagick }
+      - { name: php71-imagick, install_options: build-from-source }
       - { name: php71-intl }
       - { name: php71-opcache }
       - { name: php71-apcu }
