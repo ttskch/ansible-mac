@@ -1,9 +1,10 @@
 - hosts: localhost
   connection: local
   gather_facts: no
-  vars_files:
-    - vars.yml
   vars:
+    apache:
+      user: ttskch
+      document_root: /Users/ttskch/git
     dotfiles:
       src:
         repository: git@github.com:ttskch/dotfiles.git
@@ -248,11 +249,19 @@
         ricty
 
     # configure apache
+    - name: backup default DocumentRoot directory
+      shell: mv /usr/local/var/www/htdocs /usr/local/var/www/htdocs.bak removes=/usr/local/var/www/htdocs creates=/usr/local/var/www/htdocs.bak
+      tags:
+        apache
+    - name: put symlink to DocumentRoot
+      file: src="{{ apache.document_root }}" dest=/usr/local/var/www/htdocs state=link
+      tags:
+        apache
     - name: configure httpd.conf (replace)
       replace: dest=/usr/local/etc/apache2/2.4/httpd.conf regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items:
         - { regexp: '^( *Listen) .*$',                                  replace: '\1 80' }
-        - { regexp: '^( *User) .*$',                                    replace: '\1 {{ apache_user }}' }
+        - { regexp: '^( *User) .*$',                                    replace: '\1 {{ apache.user }}' }
         - { regexp: '^( *DirectoryIndex) .*$',                          replace: '\1 index.php index.html' }
         - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',          replace: '\1\2' }   # just comment in
         - { regexp: '^( *)# *(LoadModule rewrite_module +.*)$',         replace: '\1\2' }   # just comment in
