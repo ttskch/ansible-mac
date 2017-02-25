@@ -133,18 +133,17 @@
       - xmind
 
     mas_packages:
-      - 497799835   # Xcode
-      - 409183694   # Keynote
-      - 409789998   # Twitter
-      - 414855915   # WinArchiver Lite
-      - 408981434   # iMovie
-      - 451444120   # Memory Clean
-      - 907364780   # Tomato One
-      - 563362017   # CloudClip Manager
-      - 539883307   # LINE
-      - 408980954   # GarageBand
-      - 408981434   # iMovie 9.0.9
-      - 411213048   # LadioCast
+      - { name: GarageBand, id: 408980954 }
+      - { name: iMovie, id: 408981434 }
+      - { name: "iMovie 9.0.9", id: 408981434 }
+      - { name: Keynote, id: 409183694 }
+      - { name: LadioCast, id: 411213048 }
+      - { name: LINE, id: 539883307 }
+      - { name: "Memory Clean", id: 451444120 }
+      - { name: "Tomato One", id: 907364780 }
+      - { name: Twitter, id: 409789998 }
+      - { name: "WinArchiver Lite", id: 414855915 }
+      - { name: Xcode, id: 497799835 }
 
     npm_packages:
       - { name: angular-cli }
@@ -194,7 +193,7 @@
 
     # mas install
     - name: install mas (App Store) packages
-      shell: mas install "{{ item }}"
+      shell: mas install "{{ item.id }}"
       with_items: "{{ mas_packages }}"
       register: result
       changed_when: '"already installed" not in result.stdout'
