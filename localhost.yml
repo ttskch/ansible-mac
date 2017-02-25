@@ -29,7 +29,6 @@
       - { name: git }
       - { name: graphviz }
       - { name: heroku }
-      - { name: httpd24 }   # must be prior to php71
       - { name: htop-osx }
       - { name: hub }
       - { name: imagemagick }
@@ -132,7 +131,6 @@
       - virtualbox
       - vlc
       - xmind
-      - xquartz
 
     mas_packages:
       - 497799835   # Xcode
