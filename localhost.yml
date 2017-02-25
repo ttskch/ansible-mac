@@ -220,6 +220,15 @@
       shell: sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
       args:
         creates: ~/.oh-my-zsh
+      tags:
+        zsh
+    - name: install zsh-completions
+      file:
+        src: /usr/local/share/zsh-completions
+        dest: ~/.oh-my-zsh/custom/plugins/zsh-completions
+        state: link
+      tags:
+        zsh
 
     # install Ricty font
     - name: install xquartz
