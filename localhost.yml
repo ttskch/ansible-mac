@@ -233,13 +233,19 @@
     # install Ricty font
     - name: install xquartz
       homebrew_cask: name=xquartz
+      tags:
+        ricty
     - name: install ricty
       homebrew: name=ricty
+      tags:
+        ricty
     - name: copy generated font file
       shell: "cp -f $(brew --cellar ricty)/*/share/fonts/Ricty*.ttf ~/Library/Fonts/"
       args:
         creates: ~/Library/Fonts/Ricty-Bold.ttf
       notify: run fc-cache
+      tags:
+        ricty
 
     # configure apache
     - name: configure httpd.conf (replace)
@@ -309,10 +315,16 @@
       git: repo="{{ dotfiles.src.repository }}" dest="{{ dotfiles.dest }}"
       register: ret1
       when: dotfiles.src.repository
+      tags:
+        - dotfiles
     - name: copy dotfiles
       copy: src="{{ dotfiles.src.directory }}" dest="{{ dotfiles.dest }}"
       register: ret2
       when: dotfiles.src.directory
+      tags:
+        - dotfiles
     - name: symlink dotfiles
       shell: "{{ dotfiles.symlink_command }}"
       when: ret1|changed or ret2|changed
+      tags:
+        - dotfiles
