@@ -300,19 +300,21 @@
         - php
 
     # configure xhprof
-    - name: make xhprof dir in DocumentRoot
-      file: dest=/usr/local/var/www/htdocs/xhprof state=directory
-      tags:
-        - php
+    # - name: make xhprof dir in DocumentRoot
+    #   file: dest=/usr/local/var/www/htdocs/xhprof state=directory
+    #   tags:
+    #     - php
     # - name: symlink xhprof into DocumentRoot
     #   file: src="{{ item.src }}" dest="{{ item.dest }}" state=link
     #   with_items:
-    #     - { src: /usr/local/opt/php70-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
-    #     - { src: /usr/local/opt/php70-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
+    #     - { src: /usr/local/opt/php71-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
+    #     - { src: /usr/local/opt/php71-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
     #   tags:
     #     - php
-    - name: put a snippet file into xhprof dir
-      copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
+    # - name: put a snippet file into xhprof dir
+    #   copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
+    #   tags:
+    #     - php
       tags:
         - php
 
