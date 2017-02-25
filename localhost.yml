@@ -224,10 +224,7 @@
       tags:
         zsh
     - name: install zsh-completions
-      file:
-        src: /usr/local/share/zsh-completions
-        dest: ~/.oh-my-zsh/custom/plugins/zsh-completions
-        state: link
+      file: src=/usr/local/share/zsh-completions dest=~/.oh-my-zsh/custom/plugins/zsh-completions state=link
       tags:
         zsh
 
