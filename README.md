@@ -1,4 +1,4 @@
-# Mac OS X provisioner
+# macOS provisioner
 
 ## Usage
 
@@ -12,12 +12,12 @@ $ brew install python ansible
 ### Execute
 
 ```bash
-# e.g. execute all
-$ ansible-playbook localhost.yml -i hosts
+# e.g. execute all with sudo
+$ ansible-playbook localhost.yml -i hosts -K
 
 # e.g. only install brew packages
 $ ansible-playbook localhost.yml -i hosts --tags=brew
 
-# e.g. only install npm packages
-$ ansible-playbook localhost.yml -i hosts --tags=npm
+# e.g. execute all except installing brew and brew-cask packages
+$ ansible-playbook localhost.yml -i hosts --skip-tags=brew,cask
 ```
