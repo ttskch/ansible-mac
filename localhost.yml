@@ -20,8 +20,8 @@
 
     homebrew_packages:
       - { name: ansible }
-      - { name: boris }
-      - { name: composer }
+      - { name: boris, install_options: without-php70 }
+      - { name: composer, install_options: without-php70 }
       - { name: coreutils }
       - { name: docker-clean }
       - { name: diff-so-fancy }
