@@ -194,16 +194,16 @@
     - name: install mas (App Store) packages
       shell: mas install "{{ item.id }}"
       with_items: "{{ mas_packages }}"
-      register: result
-      changed_when: '"already installed" not in result.stdout'
+      register: ret
+      changed_when: '"already installed" not in ret.stdout'
       tags:
         - mas
 
     # mas upgrade
     - name: upgrade all mas (App Store) packages
       shell: mas upgrade
-      register: result
-      changed_when: '"Everything is up-to-date" not in result.stdout'
+      register: ret
+      changed_when: '"Everything is up-to-date" not in ret.stdout'
       tags:
         - mas
 
