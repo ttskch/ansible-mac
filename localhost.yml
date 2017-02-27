@@ -4,13 +4,10 @@
   vars:
     apache:
       user: ttskch
-      document_root: /Users/ttskch/git
+      document_root: /Users/ttskch/.ghq
     dotfiles:
-      src:
-        repository: git@github.com:ttskch/dotfiles.git
-        directory: ~
-      dest: ~/dotfiles
-      symlink_command: "cd ~/dotfiles ; sh symlink.sh"
+      clone_command: "ghq get -p ttskch/dotfiles"
+      symlink_command: "cd ~/.ghq/github.com/ttskch/dotfiles ; sh symlink.sh"
 
     homebrew_taps:
       - caskroom/cask
@@ -28,6 +25,7 @@
       - { name: exiftool }
       - { name: ffmpeg, install_options: with-tools }
       - { name: git }
+      - { name: ghq }
       - { name: graphviz }
       - { name: heroku }
       - { name: htop-osx }
@@ -326,19 +324,14 @@
 
     # install dotfiles
     - name: git clone dotfiles
-      git: repo="{{ dotfiles.src.repository }}" dest="{{ dotfiles.dest }}"
-      register: ret1
-      when: dotfiles.src.repository
-      tags:
-        - dotfiles
-    - name: copy dotfiles
-      copy: src="{{ dotfiles.src.directory }}" dest="{{ dotfiles.dest }}"
-      register: ret2
-      when: dotfiles.src.directory
+      shell: "{{ dotfiles.clone_command }}"
+      register: ret
+      when: dotfiles.clone_command
+      changed_when: 'ret.rc != 0 or "exists" not in ret.stdout'
       tags:
         - dotfiles
     - name: symlink dotfiles
       shell: "{{ dotfiles.symlink_command }}"
-      when: ret1|changed or ret2|changed
+      when: ret|changed
       tags:
         - dotfiles
