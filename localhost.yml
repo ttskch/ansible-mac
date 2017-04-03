@@ -63,6 +63,7 @@
       - { name: reattach-to-user-namespace }
       - { name: rename }
       - { name: ruby }
+      - { name: sendemail }
       - { name: sl }
       - { name: sqlite }
       - { name: ssh-copy-id }
