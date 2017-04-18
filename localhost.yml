@@ -158,6 +158,7 @@
       - { name: gulp }
       - { name: karma }
       - { name: less }
+      - { name: localtunnel }
       - { name: typescript }
       - { name: typings }
       - { name: yarn }
