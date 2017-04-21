@@ -46,7 +46,6 @@
       - { name: php56-intl }
       - { name: php56-opcache }
       - { name: php56-apcu }
-      - { name: php56-apcu-bc }
       - { name: php56-mcrypt }
       - { name: php56-xdebug }
       - { name: php56-xhprof }
