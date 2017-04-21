@@ -17,8 +17,6 @@
 
     homebrew_packages:
       - { name: ansible }
-      - { name: boris, install_options: without-php70 }
-      - { name: composer, install_options: without-php70 }
       - { name: coreutils }
       - { name: docker-clean }
       - { name: diff-so-fancy }
@@ -76,6 +74,9 @@
       - { name: youtube-dl }
       - { name: zsh }
       - { name: zsh-completions }
+      # php dependent packages
+      - { name: boris }
+      - { name: composer }
 
     php_configs:
       - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
