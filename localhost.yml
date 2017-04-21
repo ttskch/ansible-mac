@@ -260,7 +260,7 @@
       tags:
         apache
     - name: put symlink to DocumentRoot
-      file: src="{{ apache.document_root }}" dest=/usr/local/var/www/htdocs state=link
+      file: src="{{ apache.document_root }}" dest=/usr/local/var/www/htdocs state=link force=yes
       tags:
         apache
     - name: configure httpd.conf (replace)
