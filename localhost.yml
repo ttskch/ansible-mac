@@ -114,7 +114,7 @@
       - gyazo
       - handbrake
       - java
-      - karabiner
+      # - karabiner
       - kindle
       - libreoffice
       - insomnia
@@ -192,7 +192,6 @@
     - name: install homebrew cask packages
       homebrew_cask: name="{{ item }}" state=present
       with_items: "{{ homebrew_cask_packages }}"
-      ignore_errors: true
       tags:
         - cask
 
