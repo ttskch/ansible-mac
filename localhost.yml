@@ -7,7 +7,7 @@
       document_root: /Users/ttskch/.ghq
     dotfiles:
       clone_command: "ghq get -p ttskch/dotfiles"
-      symlink_command: "cd ~/.ghq/github.com/ttskch/dotfiles ; sh symlink.sh"
+      symlink_command: "cd ~/.ghq/github.com/ttskch/dotfiles && sh symlink.sh"
 
     homebrew_taps:
       - caskroom/cask
