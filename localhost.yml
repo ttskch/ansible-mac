@@ -11,6 +11,7 @@
 
     homebrew_taps:
       - caskroom/cask
+      - dteoh/sqa
       - homebrew/php
       - homebrew/apache
       - sanemat/font
@@ -125,6 +126,7 @@
       - ripit
       - sequel-pro
       - slack
+      - slowquitapps
       - skitch
       - skype
       - soundflower
