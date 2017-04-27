@@ -152,7 +152,7 @@
       - { name: Xcode, id: 497799835 }
 
     npm_packages:
-      - { name: angular-cli }
+      - { name: @angular/cli }
       - { name: bower }
       - { name: coffee-script }
       - { name: grunt }
