@@ -40,6 +40,7 @@
       - { name: openssl }
       - { name: packer }
       - { name: peco }
+      - { name: php71, state: unlinked }   # unlink existent php71
       - { name: php56, install_options: "with-httpd24,enable-shmop" }
       - { name: php56-imagick, install_options: build-from-source }
       - { name: php56-intl }
@@ -159,7 +160,7 @@
       - { name: Xcode, id: 497799835 }
 
     npm_packages:
-      - { name: @angular/cli }
+      - { name: "@angular/cli" }
       - { name: bower }
       - { name: coffee-script }
       - { name: grunt }
@@ -201,6 +202,7 @@
     - name: install homebrew cask packages
       homebrew_cask: name="{{ item }}" state=present
       with_items: "{{ homebrew_cask_packages }}"
+      ignore_errors: true
       tags:
         - cask
 
