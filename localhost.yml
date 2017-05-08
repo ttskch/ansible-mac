@@ -79,6 +79,7 @@
       # php dependent packages
       - { name: boris }
       - { name: composer }
+      - { name: deployer }
 
     php_configs:
       - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
