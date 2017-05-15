@@ -37,6 +37,8 @@
       - { name: mysql }
       - { name: nkf }
       - { name: node }
+      - { name: node, state: unlinked }   # unlink node7
+      - { name: node@6 }
       - { name: openssl }
       - { name: packer }
       - { name: peco }
