@@ -341,6 +341,12 @@
     #   tags:
     #     - php
 
+    # install hirak/prestissimo
+    - name: install hirak/prestissimo
+      composer: command=require arguments=hirak/prestissimo working_dir=~/.composer
+      tags:
+        composer
+
     # configure mysql
     - name: chown mysql directory
       file: path=/usr/local/var/mysql owner=_mysql group=_mysql recurse=yes
