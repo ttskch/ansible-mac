@@ -61,6 +61,7 @@
       - { name: php71-mcrypt }
       - { name: php71-xdebug }
       # - { name: php71-xhprof }
+      - { name: php71 }   # re-link php71
       - { name: phpunit }
       - { name: python }
       - { name: reattach-to-user-namespace }
@@ -111,10 +112,8 @@
       - filezilla
       - firefox
       - flash-player
-      - gimp
+      - google-backup-and-sync
       - google-chrome
-      - google-drive
-      - google-photos-backup
       - grammarly
       - gyazo
       - handbrake
@@ -123,6 +122,7 @@
       - kindle
       - libreoffice
       - insomnia
+      - insomniax
       - phpstorm
       - pingendo
       - plex-media-server
@@ -199,6 +199,13 @@
     - name: install homebrew packages
       homebrew: name="{{ item.name }}" state="{{ item.state|default('latest') }}" install_options="{{ item.install_options|default() }}"
       with_items: "{{ homebrew_packages }}"
+      tags:
+        - brew
+
+    - name: link node@6 forcely
+      shell: brew link node@6 --force
+      register: ret
+      changed_when: '"Already linked" not in ret.stdout'
       tags:
         - brew
 
