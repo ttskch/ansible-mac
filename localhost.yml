@@ -67,6 +67,8 @@
       - { name: reattach-to-user-namespace }
       - { name: rename }
       - { name: ruby }
+      - { name: sbt }
+      - { name: scala }
       - { name: sendemail }
       - { name: sl }
       - { name: sqlite }
@@ -117,6 +119,7 @@
       - grammarly
       - gyazo
       - handbrake
+      - intellij-idea-ce
       - java
       # - karabiner
       - kindle
