@@ -65,6 +65,7 @@
       - { name: php71 }   # re-link php71
       - { name: phpunit }
       - { name: python }
+      - { name: python3 }
       - { name: reattach-to-user-namespace }
       - { name: rename }
       - { name: ruby }
