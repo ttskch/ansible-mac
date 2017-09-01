@@ -41,6 +41,7 @@
       - { name: node@6 }
       - { name: openssl }
       - { name: packer }
+      - { name: pandoc }
       - { name: peco }
       - { name: php71, state: unlinked }   # unlink existent php71
       - { name: php56, install_options: "with-httpd24,enable-shmop" }
