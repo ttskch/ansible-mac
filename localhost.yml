@@ -119,6 +119,7 @@
       - flash-player
       - google-backup-and-sync
       - google-chrome
+      - google-drive-file-stream
       - grammarly
       - gyazo
       - handbrake
