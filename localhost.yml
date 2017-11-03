@@ -23,6 +23,7 @@
       - { name: docker-clean }
       - { name: diff-so-fancy }
       - { name: exiftool }
+      - { name: figlet }
       - { name: ffmpeg, install_options: with-tools }
       - { name: git }
       - { name: ghq }
