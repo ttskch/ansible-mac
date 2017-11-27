@@ -42,6 +42,7 @@
       - { name: node, state: unlinked }   # unlink node7
       - { name: node@6 }
       - { name: openssl }
+      - { name: p7zip }
       - { name: packer }
       - { name: pandoc }
       - { name: peco }
