@@ -182,6 +182,7 @@
       - { name: karma }
       - { name: less }
       - { name: localtunnel }
+      - { name: nativefier }
       - { name: typescript }
       - { name: typings }
       - { name: yarn }
