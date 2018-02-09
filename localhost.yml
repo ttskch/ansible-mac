@@ -27,6 +27,7 @@
       - { name: ffmpeg, install_options: with-tools }
       - { name: git }
       - { name: ghq }
+      - { name: gnu-sed, install_options: with-default-names }
       - { name: graphviz }
       - { name: heroku }
       - { name: htop-osx }
