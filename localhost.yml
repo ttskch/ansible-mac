@@ -30,6 +30,7 @@
       - { name: gnu-sed, install_options: with-default-names }
       - { name: graphviz }
       - { name: heroku }
+      - { name: highlight }
       - { name: htop-osx }
       - { name: hub }
       - { name: imagemagick }
