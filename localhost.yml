@@ -89,9 +89,9 @@
       - { name: zsh }
       - { name: zsh-completions }
       # php dependent packages
-      - { name: boris }
       - { name: composer }
       - { name: deployer }
+      - { name: psysh, install_options: build-from-source }
 
     php_configs:
       - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
