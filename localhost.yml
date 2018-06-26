@@ -12,7 +12,6 @@
     homebrew_taps:
       - caskroom/cask
       - dteoh/sqa
-      - homebrew/php
       - homebrew/apache
       - sanemat/font
 
@@ -48,26 +47,9 @@
       - { name: packer }
       - { name: pandoc }
       - { name: peco }
-      - { name: php71, state: unlinked }   # unlink existent php71
-      - { name: php56, install_options: "with-httpd24,enable-shmop" }
-      - { name: php56-imagick, install_options: build-from-source }
-      - { name: php56-intl }
-      - { name: php56-opcache }
-      - { name: php56-apcu }
-      - { name: php56-mcrypt }
-      - { name: php56-xdebug }
-      - { name: php56-xhprof }
-      - { name: php56, state: unlinked }   # unlink php56
-      - { name: php71, install_options: "with-httpd24,enable-shmop" }
-      - { name: php71-imagick, install_options: build-from-source }
-      - { name: php71-intl }
-      - { name: php71-opcache }
-      - { name: php71-apcu }
-      - { name: php71-apcu-bc }
-      - { name: php71-mcrypt }
-      - { name: php71-xdebug }
-      # - { name: php71-xhprof }
-      - { name: php71 }   # re-link php71
+      - { name: php }   # including pecl
+      - { name: php@5.6 }   # including pecl
+      - { name: php@7.1 }   # including pecl
       - { name: phpunit }
       - { name: python }
       - { name: python3 }
@@ -93,16 +75,22 @@
       - { name: deployer }
       - { name: psysh, install_options: build-from-source }
 
+    pecl_packages:
+      - apcu
+      - apcu_bc
+      - imagick
+      - xdebug
+      # - xhprof   # beta yet
+
     php_configs:
+      - { regexp: '^;? *(extension_dir) = ".*"',              replace: '\1 = ' }
       - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
       - { regexp: '^;?(max_input_time) *=.*$',                replace: '\1 = -1' }
       - { regexp: '^;?(memory_limit) *=.*$',                  replace: '\1 = 512M' }
       - { regexp: '^;?(date.timezone) *=.*$',                 replace: '\1 = Asia/Tokyo' }
       - { regexp: '^;?(mbstring.language) *=.*$',             replace: '\1 = Japanese' }
-      - { regexp: '^;?(mysql.default_socket) *=.*$',          replace: '\1 = /private/tmp/mysql.sock' }
       - { regexp: '^;?(pdo_mysql.default_socket) *=.*$',      replace: '\1 = /private/tmp/mysql.sock' }
-      - { regexp: '^;?(zend_extension *= *opcache.so)',       replace: ';\1' }   # just comment out
-      - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php70
+      # - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php70
       - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
 
     homebrew_cask_packages:
@@ -210,7 +198,7 @@
       tags:
         - brew
 
-    # brew instal
+    # brew install
     - name: install homebrew packages
       homebrew: name="{{ item.name }}" state="{{ item.state|default('latest') }}" install_options="{{ item.install_options|default() }}"
       with_items: "{{ homebrew_packages }}"
@@ -223,6 +211,15 @@
       changed_when: '"Already linked" not in ret.stdout'
       tags:
         - brew
+
+    # pecl install
+    - name: install pecl packages
+      shell: pecl install "{{ item }}"
+      with_items: "{{ pecl_packages }}"
+      register: ret
+      changed_when: "'is already installed' not in ret.stdout"
+      tags:
+        - pecl
 
     # brew cask install
     - name: install homebrew cask packages
@@ -388,5 +385,11 @@
     - name: symlink dotfiles
       shell: "{{ dotfiles.symlink_command }}"
       when: ret|changed
+      tags:
+        - dotfiles
+
+    # link php@7.1
+    - name: link php@7.1 by default
+      shell: source ~/.zshrc && switch-php-version 7.1
       tags:
         - dotfiles
