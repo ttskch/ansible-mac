@@ -209,7 +209,7 @@
       tags:
         - brew
 
-    # brew instal
+    # brew install
     - name: install homebrew packages
       homebrew: name="{{ item.name }}" state="{{ item.state|default('latest') }}" install_options="{{ item.install_options|default() }}"
       with_items: "{{ homebrew_packages }}"
