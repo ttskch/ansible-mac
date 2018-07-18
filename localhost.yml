@@ -218,6 +218,7 @@
       with_items: "{{ pecl_packages }}"
       register: ret
       changed_when: "'is already installed' not in ret.stdout"
+      ignore_errors: true
       tags:
         - pecl
 
