@@ -171,6 +171,7 @@
       - { name: grunt }
       - { name: grunt-cli }
       - { name: gulp }
+      - { name: hubot }
       - { name: karma }
       - { name: less }
       - { name: localtunnel }
