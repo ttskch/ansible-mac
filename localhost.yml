@@ -48,8 +48,8 @@
       - { name: pandoc }
       - { name: peco }
       - { name: php }   # including pecl
-      - { name: php@5.6 }   # including pecl
-      - { name: php@7.1 }   # including pecl
+      - { name: php@5.6, state: unlinked }   # including pecl
+      - { name: php@7.1, state: unlinked }   # including pecl
       - { name: phpunit }
       - { name: python }
       - { name: python3 }
@@ -327,13 +327,18 @@
       tags:
         - apache
 
-    # configure php56, php71
-    - name: configure php.ini of php56
+    # configure php, php@5.6, php@7.1
+    - name: configure php.ini of php
+      replace: dest=/usr/local/etc/php/7.2/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+      with_items: "{{ php_configs }}"
+      tags:
+        - php
+    - name: configure php.ini of php@5.6
       replace: dest=/usr/local/etc/php/5.6/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items: "{{ php_configs }}"
       tags:
         - php
-    - name: configure php.ini of php71
+    - name: configure php.ini of php@7.1
       replace: dest=/usr/local/etc/php/7.1/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items: "{{ php_configs }}"
       tags:
