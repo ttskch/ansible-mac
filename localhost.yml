@@ -10,7 +10,6 @@
       symlink_command: "cd ~/.ghq/github.com/ttskch/dotfiles && sh symlink.sh"
 
     homebrew_taps:
-      - caskroom/cask
       - dteoh/sqa
       - homebrew/apache
       - sanemat/font
