@@ -106,7 +106,6 @@
       - docker
       - dropbox
       - eclipse-java
-      - filezilla
       - firefox
       - flash-player
       - google-backup-and-sync
@@ -136,6 +135,7 @@
       - skype
       - soundflower
       - spectacle
+      - transmit
       - transmission
       - vagrant
       - virtualbox
