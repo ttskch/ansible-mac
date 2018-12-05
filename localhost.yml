@@ -369,7 +369,7 @@
 
     # install hirak/prestissimo
     - name: install hirak/prestissimo
-      composer: command=require arguments=hirak/prestissimo working_dir=~/.composer
+      composer: command=require global_command=yes arguments=hirak/prestissimo
       tags:
         composer
 
