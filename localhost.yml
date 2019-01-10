@@ -28,7 +28,7 @@
       - { name: ghq }
       - { name: gnu-sed, install_options: with-default-names }
       - { name: graphviz }
-      - { name: heroku }
+      - { name: heroku/brew/heroku }
       - { name: highlight }
       - { name: htop-osx }
       - { name: hub }
