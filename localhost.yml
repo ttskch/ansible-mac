@@ -73,7 +73,6 @@
       # php dependent packages
       - { name: composer }
       - { name: deployer }
-      - { name: psysh, install_options: build-from-source }
 
     pecl_packages:
       - apcu
@@ -164,6 +163,10 @@
       - { name: "WinArchiver Lite", id: 414855915 }
       - { name: Xcode, id: 497799835 }
 
+    composer_packages:
+      - { name: "hirak/prestissimo" }
+      - { name: "psy/psysh" }
+
     npm_packages:
       - { name: "@angular/cli" }
       - { name: bower }
@@ -247,6 +250,13 @@
       changed_when: '"Everything is up-to-date" not in ret.stdout'
       tags:
         - mas
+
+    # composer global install
+    - name: install hirak/prestissimo
+      composer: command=require global_command=yes arguments={{ item.name }}
+      with_items: "{{ composer_packages }}"
+      tags:
+        composer
 
     # npm -g install
     - name: install npm packages
@@ -366,12 +376,6 @@
     #   copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
     #   tags:
     #     - php
-
-    # install hirak/prestissimo
-    - name: install hirak/prestissimo
-      composer: command=require global_command=yes arguments=hirak/prestissimo
-      tags:
-        composer
 
     # configure mysql
     - name: chown mysql directory
