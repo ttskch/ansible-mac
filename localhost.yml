@@ -6,12 +6,11 @@
       user: ttskch
       document_root: /Users/ttskch/.ghq
     dotfiles:
-      clone_command: "ghq get -p ttskch/dotfiles"
-      symlink_command: "cd ~/.ghq/github.com/ttskch/dotfiles && sh symlink.sh"
+      clone_command: "ghq get ttskch/dotfiles"
+      symlink_command: "cd ~/.ghq/github.com/ttskch/dotfiles && cp .zsh/secret.zsh.placeholder .zsh/secret.zsh && sh symlink.sh"
 
     homebrew_taps:
       - dteoh/sqa
-      - homebrew/apache
       - sanemat/font
 
     homebrew_packages:
@@ -31,6 +30,7 @@
       - { name: heroku/brew/heroku }
       - { name: highlight }
       - { name: htop-osx }
+      - { name: httpd }
       - { name: hub }
       - { name: imagemagick }
       - { name: iproute2mac }
@@ -40,17 +40,18 @@
       - { name: mysql }
       - { name: nkf }
       - { name: node }
-      - { name: node, state: unlinked }   # unlink node7
-      - { name: node@6 }
       - { name: openssl }
       - { name: p7zip }
       - { name: packer }
       - { name: pandoc }
       - { name: peco }
+      - { name: php@7.1 }   # including pecl
+      - { name: php@7.1, state: unlinked }   # unlink php@7.1
+      - { name: php@7.2 }   # including pecl
+      - { name: php@7.2, state: unlinked }   # unlink php@7.2
       - { name: php }   # including pecl
-      - { name: php@5.6, state: unlinked }   # including pecl
-      - { name: php@7.1, state: unlinked }   # including pecl
       - { name: phpunit }
+      - { name: pkg-config }   # required from "pecl install imagick"
       - { name: python }
       - { name: python3 }
       - { name: reattach-to-user-namespace }
@@ -78,8 +79,8 @@
       - apcu
       - apcu_bc
       - imagick
-      - xdebug
-      # - xhprof   # beta yet
+      - xdebug-beta   # php7.3 is supported on only beta version
+      # - xhprof-beta   # php7.3 is not supported yet
 
     php_configs:
       - { regexp: '^;? *(extension_dir) = ".*"',              replace: '\1 = ' }
@@ -151,7 +152,8 @@
       - quicklook-json
 
     mas_packages:
-      - { name: GarageBand, id: 408980954 }
+      - { name: "Final Cut Pro", id: 424389933 }
+      - { name: GarageBand, id: 682658836 }
       - { name: iMovie, id: 408981434 }
       - { name: "iMovie 9.0.9", id: 408981434 }
       - { name: Keynote, id: 409183694 }
@@ -202,30 +204,6 @@
       tags:
         - brew
 
-    # brew install
-    - name: install homebrew packages
-      homebrew: name="{{ item.name }}" state="{{ item.state|default('latest') }}" install_options="{{ item.install_options|default() }}"
-      with_items: "{{ homebrew_packages }}"
-      tags:
-        - brew
-
-    - name: link node@6 forcely
-      shell: brew link node@6 --force
-      register: ret
-      changed_when: '"Already linked" not in ret.stdout'
-      tags:
-        - brew
-
-    # pecl install
-    - name: install pecl packages
-      shell: pecl install "{{ item }}"
-      with_items: "{{ pecl_packages }}"
-      register: ret
-      changed_when: "'is already installed' not in ret.stdout"
-      ignore_errors: true
-      tags:
-        - pecl
-
     # brew cask install
     - name: install homebrew cask packages
       homebrew_cask: name="{{ item }}" state=present
@@ -233,6 +211,23 @@
       ignore_errors: true
       tags:
         - cask
+
+    # brew install
+    - name: install homebrew packages
+      homebrew: name="{{ item.name }}" state="{{ item.state|default('latest') }}" install_options="{{ item.install_options|default() }}"
+      with_items: "{{ homebrew_packages }}"
+      tags:
+        - brew
+
+    # pecl install
+    - name: install pecl packages
+      shell: yes '' | pecl install "{{ item }}"
+      with_items: "{{ pecl_packages }}"
+      register: ret
+      changed_when: "'is already installed' not in ret.stdout"
+      ignore_errors: true
+      tags:
+        - pecl
 
     # mas install
     - name: install mas (App Store) packages
@@ -252,11 +247,11 @@
         - mas
 
     # composer global install
-    - name: install hirak/prestissimo
-      composer: command=require global_command=yes arguments={{ item.name }}
+    - name: install composer packages 
+      composer: command=require global_command=yes arguments="{{ item.name }}"
       with_items: "{{ composer_packages }}"
       tags:
-        composer
+        - composer
 
     # npm -g install
     - name: install npm packages
@@ -277,40 +272,40 @@
       args:
         creates: ~/.oh-my-zsh
       tags:
-        zsh
+        - zsh
     - name: install zsh-completions
       file: src=/usr/local/share/zsh-completions dest=~/.oh-my-zsh/custom/plugins/zsh-completions state=link
       tags:
-        zsh
+        - zsh
 
     # install Ricty font
     - name: install xquartz
       homebrew_cask: name=xquartz
       tags:
-        ricty
+        - ricty
     - name: install ricty
       homebrew: name=ricty
       tags:
-        ricty
+        - ricty
     - name: copy generated font file
       shell: "cp -f $(brew --cellar ricty)/*/share/fonts/Ricty*.ttf ~/Library/Fonts/"
       args:
         creates: ~/Library/Fonts/Ricty-Bold.ttf
       notify: run fc-cache
       tags:
-        ricty
+        - ricty
 
     # configure apache
     - name: backup default DocumentRoot directory
       shell: mv /usr/local/var/www/htdocs /usr/local/var/www/htdocs.bak removes=/usr/local/var/www/htdocs creates=/usr/local/var/www/htdocs.bak
       tags:
-        apache
+        - apache
     - name: put symlink to DocumentRoot
       file: src="{{ apache.document_root }}" dest=/usr/local/var/www/htdocs state=link force=yes
       tags:
-        apache
+        - apache
     - name: configure httpd.conf (replace)
-      replace: dest=/usr/local/etc/apache2/2.4/httpd.conf regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+      replace: dest=/usr/local/etc/httpd/httpd.conf regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items:
         - { regexp: '^( *Listen) .*$',                                  replace: '\1 80' }
         - { regexp: '^( *User) .*$',                                    replace: '\1 {{ apache.user }}' }
@@ -321,30 +316,30 @@
       tags:
         - apache
     - name: configure httd.conf (insert)
-      lineinfile: dest=/usr/local/etc/apache2/2.4/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
+      lineinfile: dest=/usr/local/etc/httpd/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
       with_items:
         - { insertafter: "LoadModule rewrite_module",         line: "#LoadModule php5_module /usr/local/opt/php56/libexec/apache2/libphp5.so" }
-        - { insertafter: "LoadModule php5_module",            line: "LoadModule php7_module /usr/local/opt/php71/libexec/apache2/libphp7.so" }
+        - { insertafter: "LoadModule php5_module",            line: "LoadModule php7_module /usr/local/opt/php@7.3/lib/httpd/modules/libphp7.so" }
         - { insertafter: '^#ServerName ',                     line: "ServerName localhost:80" }
         - { insertafter: '^ *AddType ',                       line: "    AddType application/x-httpd-php .php" }
-        - { insertafter: '^ *# *Include .+httpd-vhosts.conf', line: "Include /usr/local/etc/apache2/2.4/extra/httpd-vhosts.my.conf" }
+        - { insertafter: '^ *# *Include .+httpd-vhosts.conf', line: "Include /usr/local/etc/httpd/extra/httpd-vhosts.my.conf" }
       tags:
         - apache
     - name: create httpd-vhosts.conf
-      copy: src=templates/httpd-vhosts.my.conf dest=/usr/local/etc/apache2/2.4/extra/httpd-vhosts.my.conf
+      copy: src=templates/httpd-vhosts.my.conf dest=/usr/local/etc/httpd/extra/httpd-vhosts.my.conf
       args:
         force: no
       tags:
         - apache
 
-    # configure php, php@5.6, php@7.1
+    # configure php@7.3, php@7.2, php@7.1
     - name: configure php.ini of php
-      replace: dest=/usr/local/etc/php/7.2/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+      replace: dest=/usr/local/etc/php/7.3/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items: "{{ php_configs }}"
       tags:
         - php
-    - name: configure php.ini of php@5.6
-      replace: dest=/usr/local/etc/php/5.6/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
+    - name: configure php.ini of php7.2
+      replace: dest=/usr/local/etc/php/7.2/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
       with_items: "{{ php_configs }}"
       tags:
         - php
@@ -383,7 +378,7 @@
       become: yes
       become_method: sudo
       tags:
-        mysql
+        - mysql
 
     # install dotfiles
     - name: git clone dotfiles
@@ -395,12 +390,12 @@
         - dotfiles
     - name: symlink dotfiles
       shell: "{{ dotfiles.symlink_command }}"
-      when: ret|changed
+      when: ret is changed
       tags:
         - dotfiles
 
-    # link php@7.1
-    - name: link php@7.1 by default
-      shell: source ~/.zshrc && switch-php-version 7.1
+    # link php@7.3
+    - name: link php@7.3 by default
+      shell: source ~/.zshrc && switch-php-version 7.3
       tags:
         - dotfiles
