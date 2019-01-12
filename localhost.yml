@@ -95,6 +95,7 @@
       - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
 
     homebrew_cask_packages:
+      - adobe-creative-cloud
       - alfred
       - appcleaner
       - astah-community
