@@ -68,6 +68,7 @@
       - { name: tig }
       - { name: tmux }
       - { name: tree }
+      - { name: typora }
       - { name: unrar }
       - { name: wget }
       - { name: youtube-dl }
@@ -163,6 +164,7 @@
       - { name: GarageBand, id: 682658836 }
       - { name: iMovie, id: 408981434 }
       - { name: "iMovie 9.0.9", id: 408981434 }
+      - { name: iPic, id: 1101244278 }
       - { name: Keynote, id: 409183694 }
       - { name: LadioCast, id: 411213048 }
       - { name: LINE, id: 539883307 }
