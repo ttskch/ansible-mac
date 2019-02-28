@@ -18,9 +18,11 @@
       - { name: ansible }
       - { name: antiword }
       - { name: bat }
+      - { name: composer }
       - { name: coreutils }
-      - { name: docker-clean }
+      - { name: deployer }
       - { name: diff-so-fancy }
+      - { name: docker-clean }
       - { name: exiftool }
       - { name: figlet }
       - { name: ffmpeg, install_options: with-tools }
@@ -47,13 +49,7 @@
       - { name: packer }
       - { name: pandoc }
       - { name: peco }
-      - { name: php@7.1 }   # including pecl
-      - { name: php@7.1, state: unlinked }   # unlink php@7.1
-      - { name: php@7.2 }   # including pecl
-      - { name: php@7.2, state: unlinked }   # unlink php@7.2
-      - { name: php }   # including pecl
       - { name: phpunit }
-      - { name: pkg-config }   # required from "pecl install imagick"
       - { name: python }
       - { name: python3 }
       - { name: reattach-to-user-namespace }
@@ -73,27 +69,10 @@
       - { name: youtube-dl }
       - { name: zsh }
       - { name: zsh-completions }
-      # php dependent packages
-      - { name: composer }
-      - { name: deployer }
-
-    pecl_packages:
-      - apcu
-      - apcu_bc
-      - imagick
-      - xdebug-beta   # php7.3 is supported on only beta version
-      # - xhprof-beta   # php7.3 is not supported yet
-
-    php_configs:
-      - { regexp: '^;? *(extension_dir) = ".*"',              replace: '\1 = ' }
-      - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
-      - { regexp: '^;?(max_input_time) *=.*$',                replace: '\1 = -1' }
-      - { regexp: '^;?(memory_limit) *=.*$',                  replace: '\1 = 512M' }
-      - { regexp: '^;?(date.timezone) *=.*$',                 replace: '\1 = Asia/Tokyo' }
-      - { regexp: '^;?(mbstring.language) *=.*$',             replace: '\1 = Japanese' }
-      - { regexp: '^;?(pdo_mysql.default_socket) *=.*$',      replace: '\1 = /private/tmp/mysql.sock' }
-      # - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php70
-      - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
+      # required from phpenv and php-build
+      - { name: bison }
+      - { name: libxml2 }
+      - { name: re2c }
 
     homebrew_cask_packages:
       - adobe-creative-cloud
@@ -195,6 +174,27 @@
       - { name: typings }
       - { name: yarn }
 
+    php_configs:
+      - { regexp: '^;? *(extension_dir) = ".*"',              replace: '\1 = ' }
+      - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
+      - { regexp: '^;?(max_input_time) *=.*$',                replace: '\1 = -1' }
+      - { regexp: '^;?(memory_limit) *=.*$',                  replace: '\1 = 512M' }
+      - { regexp: '^;?(date.timezone) *=.*$',                 replace: '\1 = Asia/Tokyo' }
+      - { regexp: '^;?(mbstring.language) *=.*$',             replace: '\1 = Japanese' }
+      - { regexp: '^;?(pdo_mysql.default_socket) *=.*$',      replace: '\1 = /private/tmp/mysql.sock' }
+      # - { regexp: '^;?(always_populate_raw_post_data) *=.*$', replace: '\1 = -1' }   # tentative for php70
+      - { regexp: '^;?(auto_detect_line_endings) *=.*$',      replace: '\1 = On' }
+
+    php_installations:
+      - version: 7.3.2
+        active: true
+        extensions: "apcu=@ imagick=@"   # can add to ~/.phpenv/plugins/php-build/share/php-build/extension/definition
+        php_configs: "{{ php_configs }}"
+      - version: 7.2.15
+        active: false
+        extensions: "apcu=@ imagick=@"
+        php_configs: "{{ php_configs }}"
+
   handlers:
     - name: run fc-cache
       shell: fc-cache -vf
@@ -228,15 +228,87 @@
       tags:
         - brew
 
-    # pecl install
-    - name: install pecl packages
-      shell: yes '' | pecl install "{{ item }}"
-      with_items: "{{ pecl_packages }}"
-      register: ret
-      changed_when: "'is already installed' not in ret.stdout"
+    # install phpenv
+    - name: instal phpenv
+      git: repo=git://github.com/phpenv/phpenv.git dest=~/.phpenv
+      tags:
+        - php
+        - phpenv
+    - name: install php-build
+      git: repo=git://github.com/php-build/php-build.git dest=~/.phpenv/plugins/php-build
+      tags:
+        - php
+        - phpenv
+
+    # install php
+    - name: install macOS SDK headers
+      # @see https://github.com/pyenv/pyenv/issues/1219#issuecomment-428305417
+      # @see https://polidog.jp/2018/11/28/mojave_phpenv/
+      shell: installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /
+      become: yes
+      become_method: sudo
+      tags:
+        - php
+        - phpenv
+    - name: install php
+      shell: |
+      shell: |
+        # skip all steps if already installed
+        phpenv versions | grep {{ item.version }} ; if [ $? -ne 0 ] ; then \
+        \
+        # remove symlink of php7 module file
+        (rm -f /usr/local/lib/httpd/modules/libphp7.so || true) && \
+        \
+        # install php with generating php7 module file
+        PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j4 \
+        PHP_BUILD_CONFIGURE_OPTS="--with-apxs2=/usr/local/bin/apxs" \
+        PHP_BUILD_INSTALL_EXTENSION="{{ item.extensions }}" \
+        phpenv install -s {{ item.version }} && \
+        \
+        # move php7 module file and create symlink
+        mv -f /usr/local/lib/httpd/modules/libphp7.so ~/.phpenv/versions/{{ item.version }}/libexec/ && \
+        ln -sf ~/.phpenv/lib/libphp7.so /usr/local/lib/httpd/modules/ ; \
+        \
+        fi
+      with_items: "{{ php_installations }}"
       ignore_errors: true
       tags:
-        - pecl
+        - php
+        - phpenv
+    # after this, ~/.phpenv/lib/libphp7.so will be created as a symlink to ~/.phpenv/versions/{version}/libexec/libphp7.so
+    - name: activate specified php
+      shell: phpenv global {{ item.version }}
+      with_items: "{{ php_installations }}"
+      when: item.active
+      tags:
+        - php
+        - phpenv
+
+    # configure php.ini
+    - name: configure php.ini
+      replace: dest=~/.phpenv/versions/{{ item.0.version }}/etc/php.ini regexp="{{ item.1.regexp }}" replace="{{ item.1.replace }}"
+      with_subelements:
+        - "{{ php_installations }}"
+        - php_configs
+      tags:
+        - php
+
+    # configure xhprof
+    # - name: make xhprof dir in DocumentRoot
+    #   file: dest=/usr/local/var/www/htdocs/xhprof state=directory
+    #   tags:
+    #     - php
+    # - name: symlink xhprof into DocumentRoot
+    #   file: src="{{ item.src }}" dest="{{ item.dest }}" state=link
+    #   with_items:
+    #     - { src: /usr/local/opt/php71-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
+    #     - { src: /usr/local/opt/php71-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
+    #   tags:
+    #     - php
+    # - name: put a snippet file into xhprof dir
+    #   copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
+    #   tags:
+    #     - php
 
     # mas install
     - name: install mas (App Store) packages
@@ -256,7 +328,7 @@
         - mas
 
     # composer global install
-    - name: install composer packages 
+    - name: install composer packages
       composer: command=require global_command=yes arguments="{{ item.name }}"
       with_items: "{{ composer_packages }}"
       tags:
@@ -321,14 +393,11 @@
         - { regexp: '^( *DirectoryIndex) .*$',                          replace: '\1 index.php index.html' }
         - { regexp: '^( *)# *(AddHandler cgi-script .cgi).*$',          replace: '\1\2' }   # just comment in
         - { regexp: '^( *)# *(LoadModule rewrite_module +.*)$',         replace: '\1\2' }   # just comment in
-        - { regexp: '^LoadModule +php\d_module +/usr/local/Cellar/.+\n', replace: '' }   # remove the line already exists
       tags:
         - apache
     - name: configure httd.conf (insert)
       lineinfile: dest=/usr/local/etc/httpd/httpd.conf insertafter="{{ item.insertafter }}" line="{{ item.line }}"
       with_items:
-        - { insertafter: "LoadModule rewrite_module",         line: "#LoadModule php5_module /usr/local/opt/php56/libexec/apache2/libphp5.so" }
-        - { insertafter: "LoadModule php5_module",            line: "LoadModule php7_module /usr/local/opt/php@7.3/lib/httpd/modules/libphp7.so" }
         - { insertafter: '^#ServerName ',                     line: "ServerName localhost:80" }
         - { insertafter: '^ *AddType ',                       line: "    AddType application/x-httpd-php .php" }
         - { insertafter: '^ *# *Include .+httpd-vhosts.conf', line: "Include /usr/local/etc/httpd/extra/httpd-vhosts.my.conf" }
@@ -340,46 +409,6 @@
         force: no
       tags:
         - apache
-
-    # configure php@7.3, php@7.2, php@7.1
-    - name: configure php.ini of php
-      replace: dest=/usr/local/etc/php/7.3/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
-      with_items: "{{ php_configs }}"
-      tags:
-        - php
-    - name: configure php.ini of php7.2
-      replace: dest=/usr/local/etc/php/7.2/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
-      with_items: "{{ php_configs }}"
-      tags:
-        - php
-    - name: configure php.ini of php@7.1
-      replace: dest=/usr/local/etc/php/7.1/php.ini regexp="{{ item.regexp }}" replace="{{ item.replace }}"
-      with_items: "{{ php_configs }}"
-      tags:
-        - php
-
-    # configure xdebug
-    - name: configure ext-xdebug.ini
-      copy: src=templates/ext-xdebug.my.ini dest=/usr/local/etc/php/7.1/conf.d/ext-xdebug.my.ini
-      tags:
-        - php
-
-    # configure xhprof
-    # - name: make xhprof dir in DocumentRoot
-    #   file: dest=/usr/local/var/www/htdocs/xhprof state=directory
-    #   tags:
-    #     - php
-    # - name: symlink xhprof into DocumentRoot
-    #   file: src="{{ item.src }}" dest="{{ item.dest }}" state=link
-    #   with_items:
-    #     - { src: /usr/local/opt/php71-xhprof/xhprof_html, dest: /usr/local/var/www/htdocs/xhprof/xhprof_html }
-    #     - { src: /usr/local/opt/php71-xhprof/xhprof_lib, dest: /usr/local/var/www/htdocs/xhprof/xhprof_lib }
-    #   tags:
-    #     - php
-    # - name: put a snippet file into xhprof dir
-    #   copy: src=templates/xhprof.snippet dest=/usr/local/var/www/htdocs/xhprof/xhprof.snippet
-    #   tags:
-    #     - php
 
     # configure mysql
     - name: chown mysql directory
@@ -400,11 +429,5 @@
     - name: symlink dotfiles
       shell: "{{ dotfiles.symlink_command }}"
       when: ret is changed
-      tags:
-        - dotfiles
-
-    # link php@7.3
-    - name: link php@7.3 by default
-      shell: source ~/.zshrc && switch-php-version 7.3
       tags:
         - dotfiles
