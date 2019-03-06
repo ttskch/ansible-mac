@@ -40,8 +40,9 @@
       - { name: jq }
       - { name: lastpass-cli }
       - { name: mas }
+      - { name: mysql }
+      - { name: mysql, state: unlink }
       - { name: mysql@5.7 }
-      # - { name: mysql }   # 8.0+
       - { name: nkf }
       - { name: node }
       - { name: openssl }
@@ -51,7 +52,8 @@
       - { name: peco }
       - { name: phpunit }
       - { name: python }
-      - { name: python3 }
+      - { name: python, state: unlink }
+      - { name: python@2 }
       - { name: reattach-to-user-namespace }
       - { name: rename }
       - { name: ruby }
