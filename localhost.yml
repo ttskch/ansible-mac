@@ -63,6 +63,7 @@
       - { name: sl }
       - { name: sqlite }
       - { name: ssh-copy-id }
+      - { name: telnet }
       - { name: tig }
       - { name: tmux }
       - { name: tree }
