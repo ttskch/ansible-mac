@@ -173,6 +173,7 @@
       - { name: karma }
       - { name: less }
       - { name: localtunnel }
+      - { name: n }
       - { name: nativefier }
       - { name: npm-check-updates }
       - { name: typescript }
