@@ -17,6 +17,7 @@
     homebrew_packages:
       - { name: ansible }
       - { name: antiword }
+      - { name: awscli }
       - { name: bat }
       - { name: composer }
       - { name: coreutils }
