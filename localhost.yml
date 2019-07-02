@@ -29,7 +29,7 @@
       - { name: ffmpeg, install_options: with-tools }
       - { name: git }
       - { name: ghq }
-      - { name: gnu-sed, install_options: with-default-names }
+      - { name: gnu-sed }
       - { name: graphviz }
       - { name: heroku/brew/heroku }
       - { name: highlight }
