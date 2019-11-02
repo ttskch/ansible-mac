@@ -26,7 +26,7 @@
       - { name: docker-clean }
       - { name: exiftool }
       - { name: figlet }
-      - { name: ffmpeg, install_options: with-tools }
+      - { name: ffmpeg }
       - { name: git }
       - { name: ghq }
       - { name: gnu-sed }
