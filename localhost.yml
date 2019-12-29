@@ -45,7 +45,7 @@
       - { name: mysql, state: unlink }
       - { name: mysql@5.7 }
       - { name: nkf }
-      - { name: node }
+      - { name: nodebrew }
       - { name: openssl }
       - { name: p7zip }
       - { name: packer }
@@ -179,7 +179,6 @@
       - { name: karma }
       - { name: less }
       - { name: localtunnel }
-      - { name: n }
       - { name: nativefier }
       - { name: npm-check-updates }
       - { name: typescript }
