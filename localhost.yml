@@ -74,13 +74,16 @@
       - { name: zsh }
       - { name: zsh-completions }
       # required from phpenv and php-build
-      # also see https://qiita.com/0tofu/items/e95867ebc9dadf58cc70
+      # see also https://qiita.com/0tofu/items/e95867ebc9dadf58cc70
       - { name: bison }
       - { name: bzip2 }
       - { name: libiconv }
       - { name: libedit }
       - { name: libxml2 }
       - { name: re2c }
+      # to pecl install amqp
+      # see also https://stackoverflow.com/questions/51818515/installing-amqp-on-mac-with-brew#answer-52832365
+      - { name: rabbitmq-c }
 
     homebrew_cask_packages:
       - adobe-creative-cloud
