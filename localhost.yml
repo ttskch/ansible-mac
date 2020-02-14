@@ -181,6 +181,7 @@
       - { name: bower }
       - { name: coffee-script }
       - { name: firebase-tools }
+      - { name: git-cz }
       - { name: grunt }
       - { name: grunt-cli }
       - { name: gulp }
