@@ -152,7 +152,7 @@
       - qlcolorcode
       - qlmarkdown
       - qlimagesize
-      - betterzipql
+      - betterzip
       - quicklook-csv
       - quicklook-json
 
