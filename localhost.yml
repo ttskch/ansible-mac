@@ -80,6 +80,7 @@
       - { name: libiconv }
       - { name: libedit }
       - { name: libxml2 }
+      - { name: krb5 }
       - { name: re2c }
       # to pecl install amqp
       # see also https://stackoverflow.com/questions/51818515/installing-amqp-on-mac-with-brew#answer-52832365
