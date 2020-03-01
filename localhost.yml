@@ -4,7 +4,7 @@
   vars:
     apache:
       user: ttskch
-      document_root: /Users/ttskch/.ghq
+      document_root: /Users/ttskch/ghq
     dotfiles:
       clone_command: "ghq get ttskch/dotfiles"
       symlink_command: "cd ~/.ghq/github.com/ttskch/dotfiles && cp .zsh/secret.zsh.placeholder .zsh/secret.zsh && sh symlink.sh"
