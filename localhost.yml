@@ -191,6 +191,7 @@
       - { name: less }
       - { name: localtunnel }
       - { name: nativefier }
+      - { name: netlify-cli }
       - { name: npm-check-updates }
       - { name: typescript }
       - { name: typings }
