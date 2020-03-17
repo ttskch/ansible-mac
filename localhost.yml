@@ -55,6 +55,7 @@
       - { name: python }
       - { name: python, state: unlink }
       - { name: python@2 }
+      - { name: rails-completion }
       - { name: reattach-to-user-namespace }
       - { name: rename }
       - { name: ruby }
