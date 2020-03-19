@@ -58,7 +58,8 @@
       - { name: rails-completion }
       - { name: reattach-to-user-namespace }
       - { name: rename }
-      - { name: ruby }
+      - { name: rbenv }
+      - { name: ruby-build }
       - { name: sbt }
       - { name: scala }
       - { name: sendemail }
