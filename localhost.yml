@@ -131,6 +131,7 @@
       - plex-media-server
       - qr-journal
       - reaper
+      - rectangle
       - ripit
       - sequel-pro
       - slack
@@ -138,7 +139,6 @@
       - skitch
       - skype
       - soundflower
-      - spectacle
       - transmit
       - transmission
       - typora
