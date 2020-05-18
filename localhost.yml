@@ -198,6 +198,7 @@
       - { name: npm-check-updates }
       - { name: typescript }
       - { name: typings }
+      - { name: vercel }
       - { name: yarn }
 
     php_configs:
