@@ -13,6 +13,7 @@
       - dteoh/sqa
       - sanemat/font
       - homebrew/cask-drivers
+      - mongodb/brew
 
     homebrew_packages:
       - { name: ansible }
@@ -41,6 +42,7 @@
       - { name: jq }
       - { name: lastpass-cli }
       - { name: mas }
+      - { name: mongodb-community }
       - { name: mysql }
       - { name: mysql, state: unlink }
       - { name: mysql@5.7 }
