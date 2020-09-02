@@ -118,6 +118,7 @@
       - gyazo
       - handbrake
       - intellij-idea-ce
+      - insomnia
       - java
       # - karabiner
       - kindle
@@ -126,7 +127,7 @@
       - music-manager
       - ngrok
       - notion
-      - insomnia
+      - obs
       - parsehub
       - phpstorm
       - pingendo
