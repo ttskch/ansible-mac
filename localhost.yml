@@ -59,6 +59,7 @@
       - { name: python@2 }
       - { name: rails-completion }
       - { name: reattach-to-user-namespace }
+      - { name: redis }
       - { name: rename }
       - { name: rbenv }
       - { name: ruby-build }
