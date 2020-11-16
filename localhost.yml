@@ -180,7 +180,6 @@
       - { name: Xcode, id: 497799835 }
 
     composer_packages:
-      - { name: "hirak/prestissimo" }
       - { name: "psy/psysh" }
 
     npm_packages:
