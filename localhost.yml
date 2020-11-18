@@ -76,8 +76,6 @@
       - { name: unrar }
       - { name: wget }
       - { name: youtube-dl }
-      - { name: zsh }
-      - { name: zsh-completions }
       # required from phpenv and php-build
       # see also https://qiita.com/0tofu/items/e95867ebc9dadf58cc70
       - { name: bison }
@@ -377,15 +375,11 @@
       tags:
         - gem
 
-    # install oh-my-zsh
-    - name: install oh-my-zsh
-      shell: sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    # install zinit
+    - name: install zinit
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
       args:
-        creates: ~/.oh-my-zsh
-      tags:
-        - zsh
-    - name: install zsh-completions
-      file: src=/usr/local/share/zsh-completions dest=~/.oh-my-zsh/custom/plugins/zsh-completions state=link
+        creates: ~/.zinit
       tags:
         - zsh
 
