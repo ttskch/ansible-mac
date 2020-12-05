@@ -93,8 +93,8 @@
     homebrew_cask_packages:
       - adobe-creative-cloud
       - alfred
+      - android-studio
       - appcleaner
-      - astah-community
       - atom
       - avast-security
       - bitbar
@@ -104,6 +104,7 @@
       - cloudapp
       - cooviewer
       - dash
+      - discord
       - docker
       - dropbox
       - eclipse-java
@@ -125,14 +126,11 @@
       - kindle
       - krisp
       - libreoffice
-      - music-manager
       - ngrok
       - notion
       - obs
       - parsehub
       - phpstorm
-      - pingendo
-      - plex-media-server
       - qr-journal
       - reaper
       - rectangle
@@ -143,6 +141,8 @@
       - skitch
       - skype
       - soundflower
+      - toggl
+      - tor-browser
       - transmit
       - transmission
       - typora
