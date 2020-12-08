@@ -183,26 +183,6 @@
       - { name: GarageBand, id: 682658836 }
       - { name: LadioCast, id: 411213048 }
 
-    php_configs:
-      - { regexp: '^;?(max_execution_time) *=.*$',            replace: '\1 = 0' }
-      - { regexp: '^;?(max_input_time) *=.*$',                replace: '\1 = -1' }
-      - { regexp: '^;?(memory_limit) *=.*$',                  replace: '\1 = 512M' }
-      - { regexp: '^;?(date.timezone) *=.*$',                 replace: '\1 = Asia/Tokyo' }
-      - { regexp: '^;?(mbstring.internal_encoding) *=.*$',    replace: '\1 = UTF-8' }
-
-    # extensions only in following file are available:
-    # ~/.phpenv/plugins/php-build/share/php-build/extension/definition
-    php_installations:
-      # todo: 7.1 and 7.2 cannot be installed by the newest php-build?
-      - version: 7.3.25
-        active: no
-        extensions: "apcu=@ imagick=@"
-        php_configs: "{{ php_configs }}"
-      - version: 7.4.11
-        active: yes
-        extensions: "apcu=@ imagick=@"
-        php_configs: "{{ php_configs }}"
-
     composer_packages:
       - { name: "psy/psysh" }
 
@@ -321,35 +301,6 @@
       tags:
         - php
         - phpenv
-
-    # install php
-    - name: install php
-      shell: |
-        PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j4 \
-        PHP_BUILD_CONFIGURE_OPTS="--with-zlib-dir=/usr/local/opt/zlib --with-bz2=/usr/local/opt/bzip2 --with-jpeg-dir=/usr/local/opt/libjpeg --with-png-dir=/usr/local/opt/libpng --with-curl=/usr/local/opt/curl --with-iconv=/usr/local/opt/libiconv --with-libedit=/usr/local/opt/libedit" \
-        PHP_BUILD_INSTALL_EXTENSION="{{ item.extensions }}" \
-        phpenv install -s {{ item.version }}
-      with_items: "{{ php_installations }}"
-      ignore_errors: yes
-      tags:
-        - php
-        - phpenv
-    - name: activate specified php
-      shell: phpenv global {{ item.version }}
-      with_items: "{{ php_installations }}"
-      when: item.active
-      tags:
-        - php
-        - phpenv
-
-    # configure php.ini
-    - name: configure php.ini
-      replace: dest=~/.phpenv/versions/{{ item.0.version }}/etc/php.ini regexp="{{ item.1.regexp }}" replace="{{ item.1.replace }}"
-      with_subelements:
-        - "{{ php_installations }}"
-        - php_configs
-      tags:
-        - php
 
     # composer global install
     - name: install composer packages
