@@ -13,12 +13,6 @@
           - /usr/local/share/zsh
           - /usr/local/share/zsh/site-functions
 
-    homebrew_taps:
-      - dteoh/sqa
-      - sanemat/font
-      - homebrew/cask-drivers
-      - mongodb/brew
-
     homebrew_packages:
       - { name: ansible }
       - { name: antiword }
@@ -42,12 +36,13 @@
       - { name: htop-osx }
       - { name: httpd }
       - { name: hub }
+      - { name: itchyny/tap/mmv }
       - { name: imagemagick }
       - { name: iproute2mac }
       - { name: jq }
       - { name: lastpass-cli }
       - { name: mas }
-      - { name: mongodb-community }
+      - { name: mongodb/brew/mongodb-community }
       - { name: nkf }
       - { name: nodebrew }
       - { name: openssl }
@@ -239,13 +234,6 @@
       - { name: yarn }
 
   tasks:
-    # brew tap
-    - name: install taps of homebrew
-      homebrew_tap: tap="{{ item }}" state=present
-      with_items: "{{ homebrew_taps }}"
-      tags:
-        - brew
-
     # brew update
     - name: update homebrew
       homebrew: update_homebrew=yes
