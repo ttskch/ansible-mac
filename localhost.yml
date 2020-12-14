@@ -290,6 +290,12 @@
       tags:
         - dotfiles
 
+    # tmux plugins
+    - name: install tmux plugin manager
+      git: repo=git://github.com/tmux-plugins/tpm dest=~/.tmux/plugins/tpm
+      tags:
+        - tmux
+
     # install phpenv
     - name: instal phpenv
       git: repo=git://github.com/phpenv/phpenv.git dest=~/.phpenv
