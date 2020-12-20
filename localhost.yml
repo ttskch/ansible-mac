@@ -71,6 +71,7 @@
       - { name: unrar }
       - { name: wget }
       - { name: youtube-dl }
+      - { name: z }
       # required from phpenv and php-build
       # see also https://blog.ttskch.com/mac-phpenv-nodebrew/
       - { name: bison }
