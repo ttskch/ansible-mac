@@ -25,6 +25,7 @@
       - { name: diff-so-fancy }
       - { name: docker-clean }
       - { name: exiftool }
+      - { name: fd }
       - { name: figlet }
       - { name: ffmpeg }
       - { name: git }
@@ -57,9 +58,11 @@
       - { name: redis }
       - { name: rename }
       - { name: rbenv }
+      - { name: ripgrep }
       - { name: ruby-build }
       - { name: sbt }
       - { name: scala }
+      - { name: sd }
       - { name: sendemail }
       - { name: sl }
       - { name: sqlite }
@@ -126,9 +129,12 @@
       - grammarly
       - gyazo
       - handbrake
+      - imageoptim
       - intellij-idea-ce
       - insomnia
       - java
+      - kap
+      - keycastr
       - kindle
       - krisp
       - libreoffice
