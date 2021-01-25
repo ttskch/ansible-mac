@@ -29,6 +29,7 @@
       - { name: figlet }
       - { name: ffmpeg }
       - { name: git }
+      - { name: gh }
       - { name: ghq }
       - { name: gnu-sed }
       - { name: graphviz }
@@ -36,7 +37,6 @@
       - { name: highlight }
       - { name: htop-osx }
       - { name: httpd }
-      - { name: hub }
       - { name: itchyny/tap/mmv }
       - { name: imagemagick }
       - { name: iproute2mac }
