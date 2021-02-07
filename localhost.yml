@@ -217,6 +217,7 @@
       - { name: nativefier }
       - { name: netlify-cli }
       - { name: npm-check-updates }
+      - { name: prettier }
       - { name: typescript }
       - { name: typings }
       - { name: vercel }
