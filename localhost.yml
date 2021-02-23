@@ -45,7 +45,7 @@
       - { name: mas }
       - { name: mongodb/brew/mongodb-community }
       - { name: nkf }
-      - { name: nodebrew }
+      - { name: nodenv }
       - { name: openssl }
       - { name: p7zip }
       - { name: packer }
@@ -196,10 +196,8 @@
       - { name: "psy/psysh" }
 
     node_installations:
-      - version: v12
-        active: yes
-      - version: v13
-        active: no
+      - { version: 12.20.2, active: yes }
+      - { version: 13.14.0, active: no }
 
     npm_packages:
       - { name: "@angular/cli" }
@@ -333,24 +331,24 @@
         - php
         - symfony
 
-    # install node via nodebrew
-    - name: nodebrew setup
-      shell: nodebrew setup
+    # install node via nodenv
+    - name: nodenv init
+      shell: nodenv init
       args:
-        creates: ~/.nodebrew
+        creates: ~/.nodenv
       tags:
         - node
         - npm
-    - name: install node via nodebrew
-      shell: nodebrew install {{ item.version }}
+    - name: install node via nodenv
+      shell: nodenv install {{ item.version }}
       args:
-        creates: "~/.nodebrew/node/{{ item.version }}*"
+        creates: "~/.nodenv/versions/{{ item.version }}*"
       with_items: "{{ node_installations }}"
       tags:
         - node
         - npm
     - name: activate specified node
-      shell: nodebrew use {{ item.version }}
+      shell: nodenv global {{ item.version }}
       with_items: "{{ node_installations }}"
       when: item.active
       tags:
