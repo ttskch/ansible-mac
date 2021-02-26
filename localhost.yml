@@ -21,7 +21,6 @@
       - { name: colordiff }
       - { name: composer }
       - { name: coreutils }
-      - { name: deployer }
       - { name: diff-so-fancy }
       - { name: docker-clean }
       - { name: exiftool }
