@@ -219,6 +219,7 @@
       - { name: typings }
       - { name: vercel }
       - { name: yarn }
+      - { name: yo }
 
   tasks:
     # brew update
