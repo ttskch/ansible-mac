@@ -50,6 +50,10 @@
       - { name: packer }
       - { name: pandoc }
       - { name: peco }
+      - { name: php@7.2 }
+      - { name: php@7.3 }
+      - { name: php@7.4 }
+      - { name: php }
       - { name: phpunit }
       - { name: python }
       - { name: rails-completion }
@@ -74,26 +78,6 @@
       - { name: wget }
       - { name: youtube-dl }
       - { name: z }
-      # required from phpenv and php-build
-      # see also https://blog.ttskch.com/mac-phpenv-nodebrew/
-      - { name: bison }
-      - { name: bzip2 }
-      - { name: curl }
-      - { name: icu4c }
-      - { name: krb5 }
-      - { name: libedit }
-      - { name: libiconv }
-      - { name: libmcrypt }
-      - { name: libxml2 }
-      - { name: libzip }
-      - { name: oniguruma }
-      - { name: openssl@1.1 }
-      - { name: pkg-config }
-      - { name: re2c }
-      - { name: zlib }
-      # to pecl install amqp
-      # see also https://stackoverflow.com/questions/51818515/installing-amqp-on-mac-with-brew#answer-52832365
-      - { name: rabbitmq-c }
       # mysql (order is important)
       - { name: mysql@5.7 } # v5.7 formatted /usr/local/etc/my.cnf will be created
       - { name: mysql } # v8 formatted /usr/local/etc/my.cnf.default (instead of my.cnf) will be created
@@ -303,18 +287,6 @@
       git: repo=git://github.com/tmux-plugins/tpm dest=~/.tmux/plugins/tpm
       tags:
         - tmux
-
-    # install phpenv
-    - name: instal phpenv
-      git: repo=git://github.com/phpenv/phpenv.git dest=~/.phpenv
-      tags:
-        - php
-        - phpenv
-    - name: install php-build
-      git: repo=git://github.com/php-build/php-build.git dest=~/.phpenv/plugins/php-build
-      tags:
-        - php
-        - phpenv
 
     # composer global install
     - name: install composer packages
