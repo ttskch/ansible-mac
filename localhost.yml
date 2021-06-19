@@ -50,10 +50,12 @@
       - { name: packer }
       - { name: pandoc }
       - { name: peco }
+      - { name: php }
       - { name: php@7.2 }
       - { name: php@7.3 }
       - { name: php@7.4 }
-      - { name: php }
+      - { name: pkg-config } # pecl needs this
+      - { name: zlib }       # pecl needs this
       - { name: phpunit }
       - { name: python }
       - { name: rails-completion }
