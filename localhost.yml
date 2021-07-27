@@ -22,6 +22,7 @@
       - { name: composer }
       - { name: coreutils }
       - { name: diff-so-fancy }
+      - { name: direnv }
       - { name: docker-clean }
       - { name: exiftool }
       - { name: fd }
