@@ -18,6 +18,7 @@
       - { name: antiword }
       - { name: awscli }
       - { name: bat }
+      - { name: cheat }
       - { name: colordiff }
       - { name: composer }
       - { name: coreutils }
