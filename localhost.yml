@@ -43,6 +43,8 @@
       - { name: iproute2mac }
       - { name: jq }
       - { name: lastpass-cli }
+      - { name: mackerelio/mackerel-agent/mackerel-agent }
+      - { name: mackerelio/mackerel-agent/mkr }
       - { name: mas }
       - { name: mongodb/brew/mongodb-community }
       - { name: nkf }
