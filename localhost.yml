@@ -27,6 +27,7 @@
       - { name: docker-clean }
       - { name: exiftool }
       - { name: fd }
+      - { name: fig }
       - { name: figlet }
       - { name: ffmpeg }
       - { name: git }
