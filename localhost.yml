@@ -56,9 +56,10 @@
       - { name: pandoc }
       - { name: peco }
       - { name: php }
-      - { name: php@7.2 }
-      - { name: php@7.3 }
+      - { name: shivammathur/php/php@7.2 }
+      - { name: shivammathur/php/php@7.3 }
       - { name: php@7.4 }
+      - { name: php@8.0 }
       - { name: pkg-config } # pecl needs this
       - { name: zlib }       # pecl needs this
       - { name: phpunit }
