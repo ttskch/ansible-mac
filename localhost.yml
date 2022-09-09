@@ -185,6 +185,7 @@
       - { name: LINE, id: 539883307 }
       - { name: GarageBand, id: 682658836 }
       - { name: LadioCast, id: 411213048 }
+      - { name: GIPHY, id: 668208984 }
 
     composer_packages:
       - { name: "psy/psysh" }
