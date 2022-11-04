@@ -76,6 +76,7 @@
       - { name: sd }
       - { name: sendemail }
       - { name: sl }
+      - { name: stripe/stripe-cli/stripe }
       - { name: sqlite }
       - { name: ssh-copy-id }
       - { name: symfony-cli/tap/symfony-cli }
