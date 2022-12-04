@@ -97,6 +97,7 @@
     homebrew_cask_packages:
       - adobe-creative-cloud
       - alfred
+      - alt-tab
       - android-studio
       - appcleaner
       - atom
@@ -136,6 +137,7 @@
       - mmhmm
       - ngrok
       - notion
+      - numi
       - obs
       - obsidian
       - parsehub
