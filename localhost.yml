@@ -101,7 +101,6 @@
       - alt-tab
       - android-studio
       - appcleaner
-      - atom
       - avast-security
       - bitbar
       - caffeine
@@ -155,6 +154,7 @@
       - skype
       - soundflower
       - soundsource
+      - sublime-text
       - tableplus
       - toggl-track
       - tor-browser
