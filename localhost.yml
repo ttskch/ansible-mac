@@ -156,7 +156,6 @@
       - soundsource
       - sublime-text
       - tableplus
-      - toggl-track
       - tor-browser
       - transmit
       - transmission
@@ -193,6 +192,7 @@
       - { name: GarageBand, id: 682658836 }
       - { name: LadioCast, id: 411213048 }
       - { name: GIPHY, id: 668208984 }
+      - { name: "Toggl Track", id: 1291898086 }
 
     composer_packages:
       - { name: "psy/psysh" }
