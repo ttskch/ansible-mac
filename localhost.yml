@@ -98,6 +98,7 @@
       - { name: mysql@5.7, state: linked } # uses /usr/local/etc/my.cnf by default
 
     homebrew_cask_packages:
+      - 1password/tap/1password-cli
       - adobe-creative-cloud
       - alfred
       - alt-tab
