@@ -2,9 +2,7 @@
   connection: local
   gather_facts: no
   vars:
-    apache:
-      user: ttskch
-      document_root: /Users/ttskch/ghq
+    user: ttskch
     dotfiles:
       clone_command: "ghq get ttskch/dotfiles"
       symlink_command: "cd ~/ghq/github.com/ttskch/dotfiles && cp .zsh/secret.zsh.placeholder .zsh/secret.zsh && sh symlink.sh"
@@ -19,6 +17,7 @@
       - { name: antiword }
       - { name: awscli }
       - { name: bat }
+      - { name: carlocab/personal/unrar }
       - { name: cheat }
       - { name: colordiff }
       - { name: composer }
@@ -42,6 +41,7 @@
       - { name: itchyny/tap/mmv }
       - { name: imagemagick }
       - { name: iproute2mac }
+      - { name: java }
       - { name: jq }
       - { name: lastpass-cli }
       - { name: mackerelio/mackerel-agent/mackerel-agent }
@@ -55,9 +55,8 @@
       - { name: packer }
       - { name: pandoc }
       - { name: peco }
-      - { name: php }
-      - { name: postgresql@14, state: unlinked }
-      - { name: postgresql@15, state: linked }
+      - { name: postgresql@14 }
+      - { name: postgresql@15 }
       - { name: shivammathur/php/php@7.2 }
       - { name: shivammathur/php/php@7.3 }
       - { name: shivammathur/php/php@7.4 }
@@ -87,7 +86,6 @@
       - { name: tig }
       - { name: tmux }
       - { name: tree }
-      - { name: unrar }
       - { name: wget }
       - { name: youtube-dl }
       - { name: z }
@@ -98,14 +96,16 @@
       - { name: mysql@5.7, state: linked } # uses /usr/local/etc/my.cnf by default
 
     homebrew_cask_packages:
+      - 1password
       - 1password/tap/1password-cli
       - adobe-creative-cloud
-      - alfred
       - alt-tab
       - android-studio
       - appcleaner
-      - avast-security
       - bitbar
+      - blackhole-2ch
+      - blackhole-16ch
+      - blackhole-64ch
       - caffeine
       - camunda-modeler
       - charles
@@ -114,22 +114,21 @@
       - discord
       - docker
       - dropbox
+      - dteoh/sqa/slowquitapps
       - eclipse-java
+      - elgato-control-center
       - firefox
-      - flash-player
       - flic
-      - fujitsu-scansnap-home
       - gitup
-      - google-backup-and-sync
       - google-chrome
       - google-drive-file-stream
       - grammarly
       - gyazo
       - handbrake
+      - homebrew/cask-drivers/fujitsu-scansnap-home
       - imageoptim
       - intellij-idea-ce
       - insomnia
-      - java
       - kap
       - karabiner-elements
       - keyboardcleantool
@@ -137,6 +136,7 @@
       - kindle
       - krisp
       - libreoffice
+      - macwinzipper
       - mmhmm
       - ngrok
       - notion
@@ -149,24 +149,19 @@
       - raycast
       - reaper
       - rectangle
-      - ripit
       - sequel-ace
       - slack
-      - slowquitapps
       - sketch
       - skitch
       - skype
-      - soundflower
       - soundsource
       - sublime-text
       - tableplus
       - tor-browser
       - transmit
       - transmission
-      - typora
       - vagrant
-      - virtualbox
-      - virtualbox-extension-pack
+      # - virtualbox # Apple silicon is not supported for now
       - visual-studio-code
       - vlc
       - wireshark
@@ -187,10 +182,8 @@
       - { name: "Final Cut Pro", id: 424389933 }
       - { name: Keynote, id: 409183694 }
       - { name: iMovie, id: 408981434 }
-      - { name: "WinArchiver Lite", id: 414855915 }
       - { name: "Tomato One", id: 907364780 }
       - { name: Motion, id: 434290957 }
-      - { name: "Memory Clean", id: 451444120 }
       - { name: iText, id: 1314980676 }
       - { name: LINE, id: 539883307 }
       - { name: GarageBand, id: 682658836 }
@@ -202,8 +195,8 @@
       - { name: "psy/psysh" }
 
     node_installations:
-      - { version: 12.20.2, active: yes }
-      - { version: 13.14.0, active: no }
+      - { version: 18.13.0, active: yes }
+      - { version: 19.4.0, active: no }
 
     npm_packages:
       - { name: "@angular/cli" }
@@ -241,14 +234,22 @@
       with_items: "{{ homebrew_packages }}"
       tags:
         - brew
+    - name: mkdir /usr/local/bin
+      file:
+        path: /usr/local/bin
+        state: directory
+        owner: "{{ user }}"
+      become: yes
+      become_method: sudo
+      tags:
+        - brew
     - name: symlink python3 as python
       file:
-        src: /usr/local/opt/python/bin/python3
+        src: /opt/homebrew/bin/python3
         dest: /usr/local/bin/python
         state: link
       tags:
         - brew
-        - tmp
 
     # brew cask install
     - name: install homebrew cask packages
@@ -307,7 +308,7 @@
 
     # tmux plugins
     - name: install tmux plugin manager
-      git: repo=git://github.com/tmux-plugins/tpm dest=~/.tmux/plugins/tpm
+      git: repo=git@github.com:tmux-plugins/tpm.git dest=~/.tmux/plugins/tpm
       tags:
         - tmux
 
@@ -351,15 +352,26 @@
         - npm
 
     # npm -g install
+    - name: mkdir /usr/local/lib
+      file:
+        path: /usr/local/lib
+        state: directory
+        owner: "{{ user }}"
+      become: yes
+      become_method: sudo
+      tags:
+        - node
+        - npm
     - name: install npm packages
       npm: name="{{ item.name }}" state="{{ item.state|default('latest') }}" version="{{ item.version|default() }}" global=yes
       with_items: "{{ npm_packages }}"
       tags:
+        - node
         - npm
 
     # configure mysql
     - name: chown mysql directory
-      file: path=/usr/local/var/mysql owner=_mysql group=_mysql recurse=yes
+      file: path=/opt/homebrew/var/mysql owner=_mysql group=_mysql recurse=yes
       become: yes
       become_method: sudo
       tags:
