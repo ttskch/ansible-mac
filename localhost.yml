@@ -16,6 +16,7 @@
       - { name: ansible }
       - { name: antiword }
       - { name: awscli }
+      - { name: bash }
       - { name: bat }
       - { name: carlocab/personal/unrar }
       - { name: cheat }
