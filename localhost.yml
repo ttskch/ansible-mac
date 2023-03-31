@@ -63,9 +63,11 @@
       - { name: shivammathur/php/php@7.4 }
       - { name: php@8.0 }
       - { name: php@8.1 }
+      - { name: php@8.2 }
       - { name: pkg-config } # pecl needs this
       - { name: zlib }       # pecl needs this
       - { name: phpunit }
+      - { name: python@3.9 }
       - { name: python }
       - { name: rails-completion }
       - { name: reattach-to-user-namespace }
