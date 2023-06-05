@@ -215,6 +215,7 @@
       - { name: hubot }
       - { name: karma }
       - { name: less }
+      - { name: lighthouse }
       - { name: localtunnel }
       - { name: nativefier }
       - { name: netlify-cli }
