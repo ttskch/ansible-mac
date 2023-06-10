@@ -48,6 +48,7 @@
       - { name: mackerelio/mackerel-agent/mackerel-agent }
       - { name: mackerelio/mackerel-agent/mkr }
       - { name: mas }
+      - { name: mkcert }
       - { name: mongodb/brew/mongodb-community }
       - { name: nkf }
       - { name: nodenv }
