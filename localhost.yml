@@ -207,6 +207,7 @@
     npm_packages:
       - { name: "@angular/cli" }
       - { name: "@google/clasp" }
+      - { name: "@upstash/cli" }
       - { name: bower }
       - { name: coffee-script }
       - { name: firebase-tools }
