@@ -34,6 +34,7 @@
       - { name: gh }
       - { name: ghq }
       - { name: gnu-sed }
+      - { name: go-task/tap/go-task }
       - { name: graphviz }
       - { name: heroku/brew/heroku }
       - { name: highlight }
