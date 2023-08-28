@@ -28,8 +28,9 @@
       - { name: docker-clean }
       - { name: exiftool }
       - { name: fd }
-      - { name: figlet }
       - { name: ffmpeg }
+      - { name: figlet }
+      - { name: flyctl }
       - { name: git }
       - { name: gh }
       - { name: ghq }
