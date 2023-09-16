@@ -47,6 +47,7 @@
       - { name: java }
       - { name: jq }
       - { name: lastpass-cli }
+      - { name: librsvg }
       - { name: mackerelio/mackerel-agent/mackerel-agent }
       - { name: mackerelio/mackerel-agent/mkr }
       - { name: mas }
