@@ -18,6 +18,7 @@
       - { name: awscli }
       - { name: bash }
       - { name: bat }
+      - { name: oven-sh/bun/bun }
       - { name: carlocab/personal/unrar }
       - { name: cheat }
       - { name: colordiff }
