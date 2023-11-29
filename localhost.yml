@@ -63,12 +63,10 @@
       - { name: peco }
       - { name: postgresql@14 }
       - { name: postgresql@15 }
-      - { name: shivammathur/php/php@7.2 }
-      - { name: shivammathur/php/php@7.3 }
       - { name: shivammathur/php/php@7.4 }
-      - { name: php@8.0 }
-      - { name: php@8.1 }
-      - { name: php@8.2 }
+      - { name: shivammathur/php/php@8.0 }
+      - { name: shivammathur/php/php@8.1 }
+      - { name: shivammathur/php/php@8.2 }
       - { name: shivammathur/php/php@8.3 }
       - { name: shivammathur/extensions/apcu@8.3 }
       - { name: shivammathur/extensions/xdebug@8.3 }
