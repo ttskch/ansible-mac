@@ -215,6 +215,7 @@
       - { name: "@angular/cli" }
       - { name: "@google/clasp" }
       - { name: "@upstash/cli" }
+      - { name: aicommits }
       - { name: bower }
       - { name: coffee-script }
       - { name: firebase-tools }
