@@ -28,6 +28,7 @@
       - { name: difftastic }
       - { name: direnv }
       - { name: docker-clean }
+      - { name: dvdbackup }
       - { name: exiftool }
       - { name: fd }
       - { name: ffmpeg }
