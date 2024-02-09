@@ -42,6 +42,7 @@
       - { name: graphviz }
       - { name: heroku/brew/heroku }
       - { name: highlight }
+      - { name: homebrew/cask-fonts/font-monaspace }
       - { name: htop-osx }
       - { name: httpd }
       - { name: itchyny/tap/mmv }
