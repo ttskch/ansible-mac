@@ -100,6 +100,7 @@
       - { name: tmux }
       - { name: tree }
       - { name: wget }
+      - { name: ynqa/tap/jnv }
       - { name: youtube-dl }
       - { name: z }
       # mysql (order is important)
