@@ -74,6 +74,7 @@
       - { name: shivammathur/php/php@8.3 }
       - { name: shivammathur/extensions/apcu@8.3 }
       - { name: shivammathur/extensions/xdebug@8.3 }
+      - { name: shivammathur/extensions/pcov@8.3 }
       - { name: pkg-config } # pecl needs this
       - { name: zlib }       # pecl needs this
       - { name: phpunit }
