@@ -166,6 +166,7 @@
       - raycast
       - reaper
       - rectangle
+      - session-manager-plugin
       - sequel-ace
       - slack
       - sketch
