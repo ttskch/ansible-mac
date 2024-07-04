@@ -78,8 +78,7 @@
       - { name: pkg-config } # pecl needs this
       - { name: zlib }       # pecl needs this
       - { name: phpunit }
-      - { name: python@3.9 }
-      - { name: python }
+      - { name: pyenv }
       - { name: rails-completion }
       - { name: reattach-to-user-namespace }
       - { name: redis }
@@ -264,13 +263,6 @@
         owner: "{{ user }}"
       become: yes
       become_method: sudo
-      tags:
-        - brew
-    - name: symlink python3 as python
-      file:
-        src: /opt/homebrew/bin/python3
-        dest: /usr/local/bin/python
-        state: link
       tags:
         - brew
 
