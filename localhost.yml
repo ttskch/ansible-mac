@@ -106,8 +106,8 @@
       - { name: z }
       # mysql (order is important)
       - { name: mysql@5.7 } # v5.7 formatted /usr/local/etc/my.cnf will be created
-      - { name: mysql } # v8 formatted /usr/local/etc/my.cnf.default (instead of my.cnf) will be created
-      - { name: mysql, state: unlinked }
+      - { name: mysql@8.0 } # v8.0 formatted /usr/local/etc/my.cnf.default (instead of my.cnf) will be created
+      - { name: mysql@8.0 state: unlinked }
       - { name: mysql@5.7, state: linked } # uses /usr/local/etc/my.cnf by default
 
     homebrew_cask_packages:
