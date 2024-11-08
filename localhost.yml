@@ -60,7 +60,6 @@
       - { name: mongodb/brew/mongodb-community }
       - { name: nghttp2 }
       - { name: nkf }
-      - { name: nodenv }
       - { name: openssl }
       - { name: p7zip }
       - { name: packer }
@@ -101,6 +100,7 @@
       - { name: tig }
       - { name: tmux }
       - { name: tree }
+      - { name: volta }
       - { name: wget }
       - { name: ynqa/tap/jnv }
       - { name: youtube-dl }
@@ -216,8 +216,8 @@
       - { name: "psy/psysh" }
 
     node_installations:
-      - { version: 18.13.0, active: yes }
-      - { version: 19.4.0, active: no }
+      - { version: 20.17.0, active: yes }
+      - { version: 22.11.0, active: no }
 
     npm_packages:
       - { name: "@angular/cli" }
@@ -345,24 +345,22 @@
         - php
         - symfony
 
-    # install node via nodenv
-    - name: nodenv init
-      shell: nodenv init
-      args:
-        creates: ~/.nodenv
+    # install node via volta 
+    - name: install node 
+      shell: volta install node 
       tags:
         - node
         - npm
-    - name: install node via nodenv
-      shell: nodenv install {{ item.version }}
+    - name: install node via volta 
+      shell: volta fetch node@{{ item.version }}
       args:
-        creates: "~/.nodenv/versions/{{ item.version }}*"
+        creates: "~/.volta/tools/image/node/{{ item.version }}*"
       with_items: "{{ node_installations }}"
       tags:
         - node
         - npm
     - name: activate specified node
-      shell: nodenv global {{ item.version }}
+      shell: volta install node@{{ item.version }}
       with_items: "{{ node_installations }}"
       when: item.active
       tags:
