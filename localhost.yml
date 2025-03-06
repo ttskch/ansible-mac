@@ -96,6 +96,7 @@
       - { name: sqlite }
       - { name: ssh-copy-id }
       - { name: symfony-cli/tap/symfony-cli }
+      - { name: tbls }
       - { name: telnet }
       - { name: tig }
       - { name: tmux }
