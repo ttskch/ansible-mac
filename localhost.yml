@@ -104,7 +104,7 @@
       - { name: volta }
       - { name: wget }
       - { name: ynqa/tap/jnv }
-      - { name: youtube-dl }
+      - { name: yt-dlp }
       - { name: z }
       # mysql (order is important)
       - { name: mysql@5.7 } # v5.7 formatted /usr/local/etc/my.cnf will be created
