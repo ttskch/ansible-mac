@@ -24,6 +24,7 @@
       - { name: colordiff }
       - { name: composer }
       - { name: coreutils }
+      - { name: deno }
       - { name: diff-so-fancy }
       - { name: difftastic }
       - { name: direnv }
