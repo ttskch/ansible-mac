@@ -59,6 +59,7 @@
       - { name: mas }
       - { name: mkcert }
       - { name: mongodb/brew/mongodb-community }
+      - { name: moreutils }
       - { name: nghttp2 }
       - { name: nkf }
       - { name: openssl }
