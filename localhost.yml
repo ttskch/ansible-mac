@@ -83,10 +83,11 @@
       - { name: phpunit }
       - { name: pyenv }
       - { name: rails-completion }
+      - { name: rbenv }
       - { name: reattach-to-user-namespace }
       - { name: redis }
       - { name: rename }
-      - { name: rbenv }
+      - { name: render}
       - { name: ripgrep }
       - { name: ruby-build }
       - { name: sbt }
