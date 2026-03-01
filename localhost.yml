@@ -131,6 +131,7 @@
       - chatgpt
       - claude
       - cloudapp
+      - cmux
       - commandq
       - dash
       - deskpad
@@ -154,6 +155,7 @@
       - intellij-idea-ce
       - insomnia
       - iterm2
+      - k1LoW/tap/git-wt
       - kap
       - karabiner-elements
       - keyboardcleantool
