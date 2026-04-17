@@ -230,7 +230,6 @@
 
     npm_packages:
       - { name: "@angular/cli" }
-      - { name: "@anthropic-ai/claude-code" }
       - { name: "@google/clasp" }
       - { name: "@upstash/cli" }
       - { name: aicommits }
