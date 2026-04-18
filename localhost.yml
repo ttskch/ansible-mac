@@ -101,6 +101,7 @@
       - { name: symfony-cli/tap/symfony-cli }
       - { name: tbls }
       - { name: telnet }
+      - { name: terminal-notifier }
       - { name: tig }
       - { name: tmux }
       - { name: tree }
