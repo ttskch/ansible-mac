@@ -126,7 +126,6 @@
       - blackhole-2ch
       - blackhole-16ch
       - blackhole-64ch
-      - caffeine
       - camunda-modeler
       - charles
       - chatgpt
@@ -181,9 +180,9 @@
       - rectangle
       - session-manager-plugin
       - sequel-ace
+      - shottr
       - slack
       - sketch
-      - skitch
       - skype
       - soundsource
       - sublime-text
@@ -222,6 +221,7 @@
       - { name: LadioCast, id: 411213048 }
       - { name: GIPHY, id: 668208984 }
       - { name: "Toggl Track", id: 1291898086 }
+      - { name: Amphetamine, id: 937984704 }
 
     composer_packages:
       - { name: "psy/psysh" }
