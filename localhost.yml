@@ -69,6 +69,7 @@
       - { name: peco }
       - { name: postgresql@14 }
       - { name: postgresql@15 }
+      - { name: scrcpy }
       - { name: shivammathur/php/php@7.4 }
       - { name: shivammathur/php/php@8.0 }
       - { name: shivammathur/php/php@8.1 }
@@ -121,6 +122,7 @@
       - 1password/tap/1password-cli
       - adobe-creative-cloud
       - alt-tab
+      - android-platform-tools
       - android-studio
       - appcleaner
       - blackhole-2ch
