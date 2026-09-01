@@ -239,6 +239,7 @@
       - { name: aicommits }
       - { name: bower }
       - { name: coffee-script }
+      - { name: difit }
       - { name: firebase-tools }
       - { name: git-cz }
       - { name: grunt-cli }
