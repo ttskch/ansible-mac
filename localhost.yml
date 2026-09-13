@@ -41,6 +41,7 @@
       - { name: gnu-sed }
       - { name: go-task/tap/go-task }
       - { name: graphviz }
+      - { name: herdr }
       - { name: heroku/brew/heroku }
       - { name: highlight }
       - { name: homebrew/cask-fonts/font-monaspace }
@@ -133,7 +134,6 @@
       - chatgpt
       - claude
       - cloudapp
-      - cmux
       - commandq
       - dash
       - deskpad
