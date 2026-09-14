@@ -35,6 +35,7 @@
       - { name: ffmpeg }
       - { name: figlet }
       - { name: flyctl }
+      - { name: gcloud-cli }
       - { name: git }
       - { name: gh }
       - { name: ghq }
