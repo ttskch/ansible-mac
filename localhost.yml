@@ -137,6 +137,7 @@
       - cloudapp
       - codex
       - commandq
+      - copilot-cli
       - dash
       - deskpad
       - diff-pdf
