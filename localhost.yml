@@ -59,6 +59,7 @@
       - { name: mackerelio/mackerel-agent/mackerel-agent }
       - { name: mackerelio/mackerel-agent/mkr }
       - { name: mas }
+      - { name: mise }
       - { name: mkcert }
       - { name: mongodb/brew/mongodb-community }
       - { name: moreutils }
@@ -108,7 +109,6 @@
       - { name: tig }
       - { name: tmux }
       - { name: tree }
-      - { name: volta }
       - { name: wget }
       - { name: ynqa/tap/jnv }
       - { name: yt-dlp }
@@ -233,8 +233,7 @@
       - { name: "psy/psysh" }
 
     node_installations:
-      - { version: 20.17.0, active: yes }
-      - { version: 22.11.0, active: no }
+      - { version: 24.22.1, active: yes }
 
     npm_packages:
       - { name: "@angular/cli" }
@@ -363,22 +362,17 @@
         - php
         - symfony
 
-    # install node via volta 
-    - name: install node 
-      shell: volta install node 
-      tags:
-        - node
-        - npm
-    - name: install node via volta 
-      shell: volta fetch node@{{ item.version }}
+    # install node via mise
+    - name: install node via mise
+      shell: mise install node@{{ item.version }}
       args:
-        creates: "~/.volta/tools/image/node/{{ item.version }}*"
+        creates: "~/.local/share/mise/installs/node/{{ item.version }}"
       with_items: "{{ node_installations }}"
       tags:
         - node
         - npm
     - name: activate specified node
-      shell: volta install node@{{ item.version }}
+      shell: mise use -g node@{{ item.version }}
       with_items: "{{ node_installations }}"
       when: item.active
       tags:
@@ -386,18 +380,8 @@
         - npm
 
     # npm -g install
-    - name: mkdir /usr/local/lib
-      file:
-        path: /usr/local/lib
-        state: directory
-        owner: "{{ user }}"
-      become: yes
-      become_method: sudo
-      tags:
-        - node
-        - npm
     - name: install npm packages
-      npm: name="{{ item.name }}" state="{{ item.state|default('latest') }}" version="{{ item.version|default() }}" global=yes
+      npm: name="{{ item.name }}" state="{{ item.state|default('latest') }}" version="{{ item.version|default() }}" global=yes executable="mise exec -- npm"
       with_items: "{{ npm_packages }}"
       tags:
         - node
