@@ -85,15 +85,12 @@
       - { name: pkg-config } # pecl needs this
       - { name: zlib }       # pecl needs this
       - { name: phpunit }
-      - { name: pyenv }
       - { name: rails-completion }
-      - { name: rbenv }
       - { name: reattach-to-user-namespace }
       - { name: redis }
       - { name: rename }
       - { name: render}
       - { name: ripgrep }
-      - { name: ruby-build }
       - { name: sbt }
       - { name: scala }
       - { name: sd }
@@ -234,6 +231,12 @@
 
     node_installations:
       - { version: 24.22.1, active: yes }
+
+    python_installations:
+      - { version: 3.12.15, active: yes }
+
+    ruby_installations:
+      - { version: 4.0.7, active: yes }
 
     npm_packages:
       - { name: "@angular/cli" }
@@ -386,6 +389,36 @@
       tags:
         - node
         - npm
+
+    # install python via mise
+    - name: install python via mise
+      shell: mise install python@{{ item.version }}
+      args:
+        creates: "~/.local/share/mise/installs/python/{{ item.version }}"
+      with_items: "{{ python_installations }}"
+      tags:
+        - python
+    - name: activate specified python
+      shell: mise use -g python@{{ item.version }}
+      with_items: "{{ python_installations }}"
+      when: item.active
+      tags:
+        - python
+
+    # install ruby via mise
+    - name: install ruby via mise
+      shell: mise install ruby@{{ item.version }}
+      args:
+        creates: "~/.local/share/mise/installs/ruby/{{ item.version }}"
+      with_items: "{{ ruby_installations }}"
+      tags:
+        - ruby
+    - name: activate specified ruby
+      shell: mise use -g ruby@{{ item.version }}
+      with_items: "{{ ruby_installations }}"
+      when: item.active
+      tags:
+        - ruby
 
     # configure mysql
     - name: chown mysql directory
